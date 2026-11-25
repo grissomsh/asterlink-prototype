@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>排行榜 - 连星 AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .tab-active {
+        background: #0064fa;
+        color: #fff;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .seg {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <header
+      class="sticky top-0 z-40 border-b border-line bg-white/85 backdrop-blur"
+    >
+      <nav class="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4">
+        <a href="index.html" class="flex items-center gap-2 font-bold">
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+        </a>
+        <div class="hidden items-center gap-5 text-sm text-sub md:flex">
+          <a href="models.html" class="hover:text-ink">可用模型</a>
+          <a href="pricing.html" class="hover:text-ink">模型广场</a>
+          <a href="rankings.html" class="font-medium text-ink">排行榜</a>
+          <a href="#" class="hover:text-ink">文档</a>
+          <a href="#" class="hover:text-ink">公告</a>
+        </div>
+        <div class="ml-auto flex items-center gap-2">
+          <a
+            href="login.html"
+            class="rounded-md px-3 py-1.5 text-sm text-sub hover:text-ink"
+            >登录</a
+          >
+          <a
+            href="register.html"
+            class="rounded-md bg-brand-600 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-brand-700"
+            >免费注册</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 class="text-2xl font-bold">排行榜</h1>
+          <p class="mt-1 text-sm text-sub">
+            平台上使用最多的模型与增长中的供应商，数据基于实时用量更新（脱敏聚合值）。
+          </p>
+        </div>
+        <div class="flex rounded-lg border border-line bg-white p-0.5 text-sm">
+          <button class="rounded-md px-3 py-1.5 text-sub">今天</button>
+          <button class="tab-active rounded-md px-3 py-1.5">本周</button>
+          <button class="rounded-md px-3 py-1.5 text-sub">本月</button>
+          <button class="rounded-md px-3 py-1.5 text-sub">今年</button>
+        </div>
+      </div>
+
+      <!-- 热门模型 -->
+      <div class="mt-6 rounded-xl border border-line bg-white p-5">
+        <h2 class="font-semibold">热门模型</h2>
+        <p class="mt-0.5 text-xs text-faint">
+          最近几周内各模型的每周 Token 用量
+        </p>
+        <div class="mt-5 flex h-48 items-end gap-4 px-2">
+          <div class="stack flex-1 rounded-t bg-emerald-500" style="height: 8%">
+            <div
+              class="seg bg-emerald-500 rounded-t"
+              style="height: 14px"
+            ></div>
+          </div>
+          <div class="stack flex-1">
+            <div class="seg bg-brand-600 rounded-t" style="height: 56px"></div>
+            <div class="seg bg-sky-400" style="height: 38px"></div>
+            <div
+              class="seg bg-emerald-500 rounded-b"
+              style="height: 52px"
+            ></div>
+          </div>
+          <div class="stack flex-1">
+            <div class="seg bg-brand-600" style="height: 64px"></div>
+            <div class="seg bg-violet-500" style="height: 28px"></div>
+            <div class="seg bg-amber-400" style="height: 22px"></div>
+            <div class="seg bg-sky-400" style="height: 30px"></div>
+            <div
+              class="seg bg-emerald-500 rounded-b"
+              style="height: 60px"
+            ></div>
+          </div>
+          <div class="stack flex-1">
+            <div class="seg bg-brand-600" style="height: 58px"></div>
+            <div class="seg bg-sky-400" style="height: 34px"></div>
+            <div
+              class="seg bg-emerald-500 rounded-b"
+              style="height: 48px"
+            ></div>
+          </div>
+          <div class="stack flex-1">
+            <div class="seg bg-brand-600 rounded-t" style="height: 44px"></div>
+            <div
+              class="seg bg-emerald-500 rounded-b"
+              style="height: 36px"
+            ></div>
+          </div>
+        </div>
+        <div class="mt-2 flex justify-between px-2 text-[11px] text-faint">
+          <span>11-19</span><span>11-20</span><span>11-21</span
+          ><span>11-22</span><span>11-23</span>
+        </div>
+      </div>
+
+      <!-- LLM 排行榜 -->
+      <div class="mt-5 rounded-xl border border-line bg-white p-5">
+        <h2 class="font-semibold">LLM 排行榜</h2>
+        <p class="mt-0.5 text-xs text-faint">对比平台上最受欢迎的模型</p>
+        <div class="mt-4 grid gap-x-10 gap-y-3 text-sm md:grid-cols-2">
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">1</span
+            ><span class="font-mono text-xs">gpt-6.1-sol</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >9.92B <span class="text-xs text-emerald-600">↑34.2%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">11</span
+            ><span class="font-mono text-xs">claude-opus-5-5</span
+            ><span class="text-xs text-faint">anthropic</span
+            ><span class="ml-auto font-medium"
+              >796.7M <span class="text-xs text-emerald-600">↑12.6%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">2</span
+            ><span class="font-mono text-xs">gpt-6-luna</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >2.64B <span class="text-xs text-emerald-600">↑36.8%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">12</span
+            ><span class="font-mono text-xs">gpt-5.6-sol</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >754.9M <span class="text-xs text-emerald-600">↑64.7%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">3</span
+            ><span class="font-mono text-xs">gemini-3-flash-preview</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >2.17B <span class="text-xs text-emerald-600">↑98.9%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">13</span
+            ><span class="font-mono text-xs">gpt-4o-mini</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >629.3M <span class="text-xs text-red-500">↓34%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">4</span
+            ><span class="font-mono text-xs">gpt-6-astra</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >2.03B <span class="text-xs text-emerald-600">↑54.2%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">14</span
+            ><span class="font-mono text-xs">gemini-4-hydrogen-c</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >628.1M <span class="text-xs text-emerald-600">新上榜</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">5</span
+            ><span class="font-mono text-xs">gpt-6.2-sol</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >1.85B <span class="text-xs text-emerald-600">↑302.6%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">15</span
+            ><span class="font-mono text-xs">glm-5.3</span
+            ><span class="text-xs text-faint">智谱</span
+            ><span class="ml-auto font-medium"
+              >528.2M <span class="text-xs text-emerald-600">↑11.1%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">6</span
+            ><span class="font-mono text-xs">gemini-3.8-flash-c</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >1.65B <span class="text-xs text-emerald-600">↑80.4%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">16</span
+            ><span class="font-mono text-xs">deepseek-v4.1-flash</span
+            ><span class="text-xs text-faint">deepseek</span
+            ><span class="ml-auto font-medium"
+              >419.7M <span class="text-xs text-emerald-600">↑17.4%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">7</span
+            ><span class="font-mono text-xs">deepseek-v4.1-flash-1017</span
+            ><span class="text-xs text-faint">deepseek</span
+            ><span class="ml-auto font-medium"
+              >1.61B <span class="text-xs text-emerald-600">↑39.7%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">17</span
+            ><span class="font-mono text-xs">gemini-3.7-flash</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >406.7M
+              <span class="text-xs text-emerald-600">↑219.6%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">8</span
+            ><span class="font-mono text-xs">gpt-6-sol</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >1.40B <span class="text-xs text-emerald-600">↑16%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">18</span
+            ><span class="font-mono text-xs">grok-4.7</span
+            ><span class="text-xs text-faint">xai</span
+            ><span class="ml-auto font-medium"
+              >379.0M <span class="text-xs text-emerald-600">↑22.7%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">9</span
+            ><span class="font-mono text-xs">gpt-5.5</span
+            ><span class="text-xs text-faint">openai</span
+            ><span class="ml-auto font-medium"
+              >1.36B <span class="text-xs text-emerald-600">↑34.3%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">19</span
+            ><span class="font-mono text-xs">gemini-3.1-flash-lite</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >371.9M <span class="text-xs text-emerald-600">↑19.1%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">10</span
+            ><span class="font-mono text-xs">gemini-4-argon-c</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >821.4M <span class="text-xs text-red-500">↓20.3%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">20</span
+            ><span class="font-mono text-xs">gemini-3.6-flash</span
+            ><span class="text-xs text-faint">google</span
+            ><span class="ml-auto font-medium"
+              >323.6M <span class="text-xs text-emerald-600">↑47.4%</span></span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- 市场份额 -->
+      <div class="mt-5 rounded-xl border border-line bg-white p-5">
+        <h2 class="font-semibold">市场份额</h2>
+        <p class="mt-0.5 text-xs text-faint">最近几周各厂商的 Token 占比</p>
+        <div class="mt-5 flex h-44 items-end gap-3 px-1">
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 23%"></div>
+            <div class="seg bg-sky-400" style="height: 21%"></div>
+            <div class="seg bg-emerald-500" style="height: 28%"></div>
+            <div class="seg bg-orange-400 rounded-b" style="height: 8%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 24%"></div>
+            <div class="seg bg-violet-500" style="height: 6%"></div>
+            <div class="seg bg-sky-400" style="height: 22%"></div>
+            <div class="seg bg-emerald-500" style="height: 40%"></div>
+            <div class="seg bg-gray-700 rounded-b" style="height: 3%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 22%"></div>
+            <div class="seg bg-sky-400" style="height: 20%"></div>
+            <div class="seg bg-emerald-500" style="height: 46%"></div>
+            <div class="seg bg-gray-700 rounded-b" style="height: 4%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 25%"></div>
+            <div class="seg bg-sky-400" style="height: 19%"></div>
+            <div class="seg bg-emerald-500" style="height: 42%"></div>
+            <div class="seg bg-orange-400 rounded-b" style="height: 6%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 21%"></div>
+            <div class="seg bg-violet-500" style="height: 8%"></div>
+            <div class="seg bg-sky-400" style="height: 20%"></div>
+            <div class="seg bg-emerald-500" style="height: 41%"></div>
+            <div class="seg bg-gray-700 rounded-b" style="height: 5%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 22%"></div>
+            <div class="seg bg-violet-500" style="height: 10%"></div>
+            <div class="seg bg-sky-400" style="height: 18%"></div>
+            <div class="seg bg-emerald-500" style="height: 43%"></div>
+            <div class="seg bg-orange-400 rounded-b" style="height: 4%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 24%"></div>
+            <div class="seg bg-sky-400" style="height: 19%"></div>
+            <div class="seg bg-emerald-500" style="height: 46%"></div>
+            <div class="seg bg-orange-400 rounded-b" style="height: 6%"></div>
+          </div>
+          <div class="stack flex-1 h-full">
+            <div class="seg bg-brand-600" style="height: 23%"></div>
+            <div class="seg bg-sky-400" style="height: 22%"></div>
+            <div class="seg bg-emerald-500" style="height: 39%"></div>
+            <div class="seg bg-gray-700 rounded-b" style="height: 6%"></div>
+          </div>
+        </div>
+        <div class="mt-2 flex justify-between px-1 text-[11px] text-faint">
+          <span>11-12</span><span>11-13</span><span>11-14</span
+          ><span>11-15</span><span>11-16</span><span>11-17</span
+          ><span>11-18</span><span>11-19</span>
+        </div>
+      </div>
+
+      <!-- 厂商榜 -->
+      <div class="mt-5 rounded-xl border border-line bg-white p-5">
+        <h2 class="font-semibold">按模型厂商</h2>
+        <p class="mt-0.5 text-xs text-faint">厂商按聚合 Token 用量排序</p>
+        <div class="mt-4 grid gap-x-10 gap-y-3 text-sm md:grid-cols-2">
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">1</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span
+            >OpenAI<span class="ml-auto font-medium"
+              >21.6B <span class="text-xs text-sub">52.9%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">6</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-sky-400"></span>智谱<span
+              class="ml-auto font-medium"
+              >529.5M <span class="text-xs text-sub">1.5%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">2</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span
+            >Google<span class="ml-auto font-medium"
+              >7.7B <span class="text-xs text-sub">22.6%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">7</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-gray-400"></span
+            >Unknown<span class="ml-auto font-medium"
+              >117.1M <span class="text-xs text-sub">0.1%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">3</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-brand-400"></span
+            >DeepSeek<span class="ml-auto font-medium"
+              >2.09B <span class="text-xs text-sub">6.1%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">8</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-gray-700"></span
+            >字节跳动<span class="ml-auto font-medium"
+              >97.3M <span class="text-xs text-sub">0.2%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">4</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-orange-400"></span
+            >Anthropic<span class="ml-auto font-medium"
+              >1.47B <span class="text-xs text-sub">4.3%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">9</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-violet-500"></span
+            >阿里巴巴<span class="ml-auto font-medium"
+              >68.6M <span class="text-xs text-emerald-600">↑0.26%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">5</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-gray-900"></span>xAI<span
+              class="ml-auto font-medium"
+              >590.8M <span class="text-xs text-sub">1.7%</span></span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-faint">10</span
+            ><span class="h-2.5 w-2.5 rounded-full bg-sky-300"></span
+            >Moonshot<span class="ml-auto font-medium"
+              >2.39M <span class="text-xs text-red-500">↓0.1%</span></span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- 上升/下降趋势 -->
+      <div class="mt-5 grid gap-5 md:grid-cols-2">
+        <div class="rounded-xl border border-line bg-white p-5">
+          <h2 class="font-semibold text-emerald-700">上升趋势</h2>
+          <p class="mt-0.5 text-xs text-faint">正在攀升的模型</p>
+          <ul class="mt-3 space-y-2.5 text-sm">
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gpt-4.1-mini-2025-04-14</span
+              ><span class="text-xs text-faint">#55</span
+              ><span class="ml-auto text-emerald-600">↑ 69</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gemini-4-hydrogen</span
+              ><span class="text-xs text-faint">#50</span
+              ><span class="ml-auto text-emerald-600">↑ 69</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gemini-2.5-flash</span
+              ><span class="text-xs text-faint">#80</span
+              ><span class="ml-auto text-emerald-600">↑ 41</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gpt-6.2-sol</span
+              ><span class="text-xs text-faint">#75</span
+              ><span class="ml-auto text-emerald-600">↑ 41</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gpt-6-sol</span
+              ><span class="text-xs text-faint">#65</span
+              ><span class="ml-auto text-emerald-600">↑ 39</span>
+            </li>
+          </ul>
+        </div>
+        <div class="rounded-xl border border-line bg-white p-5">
+          <h2 class="font-semibold text-red-700">下降趋势</h2>
+          <p class="mt-0.5 text-xs text-faint">排名下滑的模型</p>
+          <ul class="mt-3 space-y-2.5 text-sm">
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gpt-4o-2024-11-20</span
+              ><span class="text-xs text-faint">#88</span
+              ><span class="ml-auto text-red-500">↓ 56</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gpt-image-2.5-sunburst</span
+              ><span class="text-xs text-faint">#82</span
+              ><span class="ml-auto text-red-500">↓ 49</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">text-embedding-3-large</span
+              ><span class="text-xs text-faint">#71</span
+              ><span class="ml-auto text-red-500">↓ 42</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">grok-4.20-0809-non-reasoning</span
+              ><span class="text-xs text-faint">#98</span
+              ><span class="ml-auto text-red-500">↓ 37</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="font-mono text-xs">gpt-5.3-codex</span
+              ><span class="text-xs text-faint">#136</span
+              ><span class="ml-auto text-red-500">↓ 36</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="mt-6 text-center text-xs text-faint">
+        数据为脱敏聚合值，缓存 ≥ 10
+        分钟，不包含任何用户与渠道信息。开关与条数由管理端配置（设计文档 03
+        §4）。
+      </p>
+    </main>
+
+    <footer class="border-t border-line bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-6 text-center text-xs text-faint">
+        © 2026 连星 AI · Asterlink ·
+        <a href="#" class="hover:text-sub">京ICP备2026000000号-1</a>
+      </div>
+    </footer>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="rankings.html"
+            >排行榜</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >可用模型</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>

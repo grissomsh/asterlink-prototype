@@ -110,6 +110,19 @@
                 <rect x="3" y="16" width="7" height="5" rx="1" /></svg
               >数据看板</a
             >
+            <a class="nav-item" href="models.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2 2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5"
+                /></svg
+              >可用模型</a
+            >
             <a class="nav-item" href="console-wallet.html"
               ><svg
                 class="h-4 w-4"
@@ -261,6 +274,39 @@
                 />
               </div>
               <div class="cfg-row">
+                <span>手机号注册必填（需配短信通道）</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>注册关闭文案 / 注册开放公告 / 注册引导</span
+                ><button
+                  class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                >
+                  编辑
+                </button>
+              </div>
+              <div class="cfg-row">
+                <span>额度不足提醒开关 + 阈值</span
+                ><span class="text-xs text-sub">开 / ¥10</span>
+              </div>
+              <div class="cfg-row">
+                <span>分组倍率外显（广场分组名挂倍率）</span
+                ><input type="checkbox" checked class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>自动分组（按消耗自动升降组）</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>主题配置（默认明暗 / 品牌色）</span
+                ><select
+                  class="rounded-md border border-line px-2 py-1 text-xs"
+                >
+                  <option>浅色</option>
+                  <option>深色</option>
+                </select>
+              </div>
+              <div class="cfg-row">
                 <span>单用户令牌上限</span
                 ><input
                   value="20"
@@ -410,6 +456,20 @@
                 />
               </div>
               <div class="cfg-row">
+                <span>人机验证（Cloudflare Turnstile，注册/登录/找回）</span
+                ><span class="flex gap-1"
+                  ><button
+                    class="rounded-md bg-brand-50 px-3 py-1 text-xs text-brand-700"
+                  >
+                    Turnstile 开</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    图形验证码兜底
+                  </button></span
+                >
+              </div>
+              <div class="cfg-row">
                 <span>超时（连接 / 非流式 / 流式首字）</span
                 ><span class="text-xs text-sub">5s / 120s / 60s</span>
               </div>
@@ -505,6 +565,10 @@
                   >DB ✓ · Redis ✓ · 队列积压 0 · 版本 v1.0.0</span
                 >
               </div>
+              <div class="cfg-row">
+                <span>状态页集成（Uptime Kuma）/ 博客外链</span
+                ><input type="checkbox" class="rounded" />
+              </div>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-faint">
               全部修改写操作审计（操作人 / 时间 / 旧值→新值 /
@@ -534,13 +598,18 @@
           >
           <a
             class="block rounded-md px-2 py-1 hover:bg-canvas"
-            href="models.html"
+            href="pricing.html"
             >模型广场</a
           >
           <a
             class="block rounded-md px-2 py-1 hover:bg-canvas"
-            href="pricing.html"
-            >定价</a
+            href="rankings.html"
+            >排行榜</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >可用模型</a
           >
           <a
             class="block rounded-md px-2 py-1 hover:bg-canvas"
