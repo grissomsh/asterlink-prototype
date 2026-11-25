@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据看板 - 连星 AI 控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #646a73;
+      }
+      .nav-item:hover {
+        background: #f3f4f6;
+        color: #1c1f23;
+      }
+      .nav-item.active {
+        background: #eef4ff;
+        color: #0064fa;
+        font-weight: 500;
+      }
+      .donut {
+        background: conic-gradient(
+          #0064fa 0 42%,
+          #7c3aed 42% 65%,
+          #059669 65% 80%,
+          #f59e0b 80% 91%,
+          #d1d5db 91% 100%
+        );
+      }
+    </style>
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <div class="flex min-h-screen">
+      <!-- 侧边栏 -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 hidden w-60 shrink-0 flex-col border-r border-line bg-white md:static md:flex"
+      >
+        <div
+          class="flex h-14 items-center gap-2 border-b border-line px-4 font-bold"
+        >
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+          <span
+            class="ml-auto rounded bg-canvas px-1.5 py-0.5 text-[11px] text-faint"
+            >default</span
+          >
+        </div>
+        <nav class="flex-1 space-y-4 overflow-y-auto px-3 py-4">
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">构建</p>
+            <a class="nav-item" href="playground.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m8 9-3 3 3 3m8-6 3 3-3 3" />
+                <rect x="3" y="4" width="18" height="16" rx="2" /></svg
+              >操练场</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 12a8 8 0 0 1-8 8H4l2.5-2.5A8 8 0 1 1 21 12Z"
+                /></svg
+              >在线聊天</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">控制台</p>
+            <a class="nav-item active" href="console-dashboard.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="9" rx="1" />
+                <rect x="14" y="3" width="7" height="5" rx="1" />
+                <rect x="14" y="12" width="7" height="9" rx="1" />
+                <rect x="3" y="16" width="7" height="5" rx="1" /></svg
+              >数据看板</a
+            >
+            <a class="nav-item" href="console-tokens.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="8" cy="12" r="4" />
+                <path d="M12 12h9m-3-3v6" /></svg
+              >API 令牌</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                />
+                <path d="M14 3v6h6M9 13h6M9 17h6" /></svg
+              >使用日志</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="12" cy="12" r="2.5" />
+                <path d="M6 10v4M18 10v4" /></svg
+              >钱包</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="8" width="18" height="4" rx="1" />
+                <path
+                  d="M5 12v8h14v-8M12 8v12M8.5 8c-2 0-3-1-3-2.5S7 3 8.5 3c2 0 3.5 2.5 3.5 5 0-2.5 1.5-5 3.5-5 1.5 0 3 1 3 2.5S20 8 18.5 8"
+                /></svg
+              >兑换中心</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">账号</p>
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg
+              >个人设置</a
+            >
+            <a class="nav-item" href="console-invite.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="9" cy="8" r="3.5" />
+                <path d="M2 20c1-3.5 4-5 7-5s6 1.5 7 5" />
+                <circle cx="17" cy="9" r="3" />
+                <path d="M16.5 14.5c2.5.3 4.5 1.7 5.5 4" /></svg
+              >邀请返利</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">管理</p>
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="4" width="20" height="7" rx="2" />
+                <rect x="2" y="13" width="20" height="7" rx="2" />
+                <path d="M6 7.5h.01M6 16.5h.01" /></svg
+              >渠道管理</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg
+              >用户管理</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z"
+                /></svg
+              >系统设置</a
+            >
+          </div>
+        </nav>
+        <div class="border-t border-line p-3">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="grid h-8 w-8 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700"
+              >王</span
+            >
+            <div class="min-w-0">
+              <p class="truncate text-sm font-medium">wang_dev</p>
+              <p class="text-xs text-faint">余额 ¥1,284.50</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 主区域 -->
+      <div class="flex min-w-0 flex-1 flex-col">
+        <!-- 顶栏 -->
+        <header
+          class="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white/85 px-4 backdrop-blur"
+        >
+          <button
+            class="md:hidden rounded-md border border-line px-2 py-1 text-sm"
+            onclick="
+              document.getElementById('sidebar').classList.toggle('hidden')
+            "
+          >
+            ☰
+          </button>
+          <p class="text-sm text-sub">
+            控制台 / <span class="font-medium text-ink">数据看板</span>
+          </p>
+          <div class="ml-auto flex items-center gap-3">
+            <span
+              class="hidden rounded-full bg-brand-50 px-3 py-1 text-sm text-brand-700 sm:inline"
+              >余额 ¥1,284.50</span
+            >
+            <a
+              href="console-wallet.html"
+              class="rounded-md bg-brand-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-700"
+              >充值</a
+            >
+            <span
+              class="grid h-8 w-8 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700"
+              >王</span
+            >
+          </div>
+        </header>
+
+        <main class="flex-1 space-y-6 p-4 md:p-6">
+          <!-- 统计卡 -->
+          <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+            <div class="rounded-xl border border-line bg-white p-5">
+              <p class="text-sm text-sub">余额</p>
+              <p class="mt-2 text-2xl font-semibold">¥1,284.50</p>
+              <a
+                href="#"
+                class="mt-1 inline-block text-xs text-brand-600 hover:underline"
+                >去钱包查看流水 →</a
+              >
+            </div>
+            <div class="rounded-xl border border-line bg-white p-5">
+              <p class="text-sm text-sub">今日消耗</p>
+              <p class="mt-2 text-2xl font-semibold">¥86.40</p>
+              <p class="mt-1 text-xs text-faint">1,247 次调用</p>
+            </div>
+            <div class="rounded-xl border border-line bg-white p-5">
+              <p class="text-sm text-sub">本月消耗</p>
+              <p class="mt-2 text-2xl font-semibold">¥1,532.20</p>
+              <p class="mt-1 text-xs text-faint">较上月 +12%</p>
+            </div>
+            <div class="rounded-xl border border-line bg-white p-5">
+              <p class="text-sm text-sub">活跃令牌</p>
+              <p class="mt-2 text-2xl font-semibold">
+                8 <span class="text-base font-normal text-faint">/ 12</span>
+              </p>
+              <a
+                href="console-tokens.html"
+                class="mt-1 inline-block text-xs text-brand-600 hover:underline"
+                >管理令牌 →</a
+              >
+            </div>
+          </div>
+
+          <!-- 图表区 -->
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="rounded-xl border border-line bg-white p-5">
+              <div class="flex items-center justify-between">
+                <h2 class="font-semibold">消耗趋势</h2>
+                <div class="flex rounded-lg border border-line p-0.5 text-xs">
+                  <button
+                    class="rounded-md bg-brand-50 px-2.5 py-1 text-brand-700"
+                  >
+                    近 7 天
+                  </button>
+                  <button class="rounded-md px-2.5 py-1 text-sub">30 天</button>
+                  <button class="rounded-md px-2.5 py-1 text-sub">90 天</button>
+                </div>
+              </div>
+              <svg viewBox="0 0 560 220" class="mt-4 w-full">
+                <defs>
+                  <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#0064fa" stop-opacity=".25" />
+                    <stop offset="1" stop-color="#0064fa" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <g stroke="#e5e7eb">
+                  <line x1="40" y1="30" x2="545" y2="30" />
+                  <line x1="40" y1="85" x2="545" y2="85" />
+                  <line x1="40" y1="140" x2="545" y2="140" />
+                  <line x1="40" y1="195" x2="545" y2="195" />
+                </g>
+                <g fill="#8f959e" font-size="11">
+                  <text x="8" y="34">¥40</text>
+                  <text x="8" y="89">¥30</text>
+                  <text x="8" y="144">¥20</text>
+                  <text x="8" y="199">¥10</text>
+                </g>
+                <path
+                  d="M40 170 85 150 130 158 175 120 220 132 265 96 310 108 355 70 400 88 445 52 490 66 535 40"
+                  fill="none"
+                  stroke="#0064fa"
+                  stroke-width="2.5"
+                />
+                <path
+                  d="M40 170 85 150 130 158 175 120 220 132 265 96 310 108 355 70 400 88 445 52 490 66 535 40 L535 195 40 195 Z"
+                  fill="url(#g1)"
+                />
+                <g fill="#8f959e" font-size="11" text-anchor="middle">
+                  <text x="40" y="214">11-19</text>
+                  <text x="155" y="214">11-20</text>
+                  <text x="270" y="214">11-21</text>
+                  <text x="385" y="214">11-22</text>
+                  <text x="500" y="214">11-23</text>
+                </g>
+              </svg>
+            </div>
+            <div class="rounded-xl border border-line bg-white p-5">
+              <div class="flex items-center justify-between">
+                <h2 class="font-semibold">调用次数</h2>
+                <span class="text-xs text-faint"
+                  >近 7 天 · 9,830 次 · 成功率 99.4%</span
+                >
+              </div>
+              <div class="mt-6 flex h-[200px] items-end gap-3 px-1">
+                <div
+                  class="flex-1 rounded-t bg-brand-100"
+                  style="height: 45%"
+                  title="1,020"
+                ></div>
+                <div
+                  class="flex-1 rounded-t bg-brand-100"
+                  style="height: 60%"
+                  title="1,340"
+                ></div>
+                <div
+                  class="flex-1 rounded-t bg-brand-100"
+                  style="height: 38%"
+                  title="860"
+                ></div>
+                <div
+                  class="flex-1 rounded-t bg-brand-100"
+                  style="height: 72%"
+                  title="1,610"
+                ></div>
+                <div
+                  class="flex-1 rounded-t bg-brand-100"
+                  style="height: 55%"
+                  title="1,230"
+                ></div>
+                <div
+                  class="flex-1 rounded-t bg-brand-100"
+                  style="height: 83%"
+                  title="1,850"
+                ></div>
+                <div
+                  class="flex-1 rounded-t bg-brand-600"
+                  style="height: 100%"
+                  title="1,920"
+                ></div>
+              </div>
+              <div
+                class="mt-2 flex justify-between px-1 text-[11px] text-faint"
+              >
+                <span>11-17</span><span>11-18</span><span>11-19</span
+                ><span>11-20</span><span>11-21</span><span>11-22</span
+                ><span>今天</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-4 lg:grid-cols-2">
+            <!-- 模型分布 -->
+            <div class="rounded-xl border border-line bg-white p-5">
+              <h2 class="font-semibold">模型消耗分布</h2>
+              <div class="mt-4 flex items-center gap-8">
+                <div class="donut relative h-36 w-36 rounded-full">
+                  <div
+                    class="absolute inset-4 grid place-items-center rounded-full bg-white"
+                  >
+                    <div class="text-center">
+                      <p class="text-lg font-semibold">¥1,532</p>
+                      <p class="text-[11px] text-faint">本月</p>
+                    </div>
+                  </div>
+                </div>
+                <ul class="space-y-2 text-sm">
+                  <li class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span
+                    >claude-sonnet-5-5 <span class="ml-auto text-sub">42%</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-violet-600"></span
+                    >gpt-5.2 <span class="ml-auto text-sub">23%</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span
+                    >deepseek-v4 <span class="ml-auto text-sub">15%</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-amber-500"></span
+                    >gemini-3-pro <span class="ml-auto text-sub">11%</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span
+                    >其他 <span class="ml-auto text-sub">9%</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- 令牌排行 -->
+            <div class="rounded-xl border border-line bg-white p-5">
+              <h2 class="font-semibold">令牌消耗排行</h2>
+              <ul class="mt-4 space-y-4 text-sm">
+                <li>
+                  <div class="flex justify-between">
+                    <span class="font-medium">claude-code-主用</span
+                    ><span class="text-sub">¥682.40</span>
+                  </div>
+                  <div class="mt-1.5 h-2 rounded-full bg-canvas">
+                    <div
+                      class="h-2 rounded-full bg-brand-600"
+                      style="width: 88%"
+                    ></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="flex justify-between">
+                    <span class="font-medium">翻译插件</span
+                    ><span class="text-sub">¥321.10</span>
+                  </div>
+                  <div class="mt-1.5 h-2 rounded-full bg-canvas">
+                    <div
+                      class="h-2 rounded-full bg-brand-500"
+                      style="width: 41%"
+                    ></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="flex justify-between">
+                    <span class="font-medium">客服机器人</span
+                    ><span class="text-sub">¥264.60</span>
+                  </div>
+                  <div class="mt-1.5 h-2 rounded-full bg-canvas">
+                    <div
+                      class="h-2 rounded-full bg-brand-400"
+                      style="width: 34%"
+                    ></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="flex justify-between">
+                    <span class="font-medium">数据分析脚本</span
+                    ><span class="text-sub">¥188.20</span>
+                  </div>
+                  <div class="mt-1.5 h-2 rounded-full bg-canvas">
+                    <div
+                      class="h-2 rounded-full bg-brand-300"
+                      style="width: 24%"
+                    ></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="flex justify-between">
+                    <span class="font-medium">其他 4 个令牌</span
+                    ><span class="text-sub">¥75.90</span>
+                  </div>
+                  <div class="mt-1.5 h-2 rounded-full bg-canvas">
+                    <div
+                      class="h-2 rounded-full bg-brand-200"
+                      style="width: 10%"
+                    ></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 最近调用 -->
+          <div class="rounded-xl border border-line bg-white">
+            <div
+              class="flex items-center justify-between border-b border-line px-5 py-4"
+            >
+              <h2 class="font-semibold">最近调用</h2>
+              <a href="#" class="text-sm text-brand-600 hover:underline"
+                >查看全部日志 →</a
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[720px] text-sm">
+                <thead class="bg-canvas text-left text-xs text-sub">
+                  <tr>
+                    <th class="px-5 py-2.5 font-medium">时间</th>
+                    <th class="px-5 py-2.5 font-medium">模型</th>
+                    <th class="px-5 py-2.5 font-medium">令牌</th>
+                    <th class="px-5 py-2.5 font-medium">Token（输入/输出）</th>
+                    <th class="px-5 py-2.5 font-medium">消耗</th>
+                    <th class="px-5 py-2.5 font-medium">耗时</th>
+                    <th class="px-5 py-2.5 font-medium">状态</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-line">
+                  <tr>
+                    <td class="px-5 py-2.5">14:32:08</td>
+                    <td class="px-5 py-2.5">claude-sonnet-5-5</td>
+                    <td class="px-5 py-2.5 text-sub">claude-code-主用</td>
+                    <td class="px-5 py-2.5 text-sub">3.2K / 1.1K</td>
+                    <td class="px-5 py-2.5">¥0.1904</td>
+                    <td class="px-5 py-2.5 text-sub">8.4s</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >成功</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-2.5">14:31:47</td>
+                    <td class="px-5 py-2.5">gpt-5.2-mini</td>
+                    <td class="px-5 py-2.5 text-sub">翻译插件</td>
+                    <td class="px-5 py-2.5 text-sub">0.8K / 0.4K</td>
+                    <td class="px-5 py-2.5">¥0.0069</td>
+                    <td class="px-5 py-2.5 text-sub">1.2s</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >成功</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-2.5">14:30:12</td>
+                    <td class="px-5 py-2.5">deepseek-v4</td>
+                    <td class="px-5 py-2.5 text-sub">数据分析脚本</td>
+                    <td class="px-5 py-2.5 text-sub">12.6K / 2.3K</td>
+                    <td class="px-5 py-2.5">¥0.0434</td>
+                    <td class="px-5 py-2.5 text-sub">15.7s</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >成功</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-2.5">14:28:55</td>
+                    <td class="px-5 py-2.5">gemini-3-pro</td>
+                    <td class="px-5 py-2.5 text-sub">客服机器人</td>
+                    <td class="px-5 py-2.5 text-sub">1.9K / 0.6K</td>
+                    <td class="px-5 py-2.5">¥0.0381</td>
+                    <td class="px-5 py-2.5 text-sub">—</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-red-50 px-2 py-0.5 text-xs text-red-600"
+                        >失败（不扣费）</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-2.5">14:27:30</td>
+                    <td class="px-5 py-2.5">qwen4-max</td>
+                    <td class="px-5 py-2.5 text-sub">claude-code-主用</td>
+                    <td class="px-5 py-2.5 text-sub">4.4K / 1.8K</td>
+                    <td class="px-5 py-2.5">¥0.0278</td>
+                    <td class="px-5 py-2.5 text-sub">6.1s</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >成功</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p class="pb-4 text-center text-xs text-faint">
+            统计口径：以成功请求的实际扣费为准，与余额流水一致。<a
+              href="#"
+              class="text-brand-600 hover:underline"
+              >口径说明</a
+            >
+          </p>
+        </main>
+      </div>
+    </div>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >定价</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>

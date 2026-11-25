@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>兑换码管理 - 连星 AI 管理端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #646a73;
+      }
+      .nav-item:hover {
+        background: #f3f4f6;
+        color: #1c1f23;
+      }
+      .nav-item.active {
+        background: #eef4ff;
+        color: #0064fa;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <div class="flex min-h-screen">
+      <!-- 侧边栏（active=兑换码管理） -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 hidden w-60 shrink-0 flex-col border-r border-line bg-white md:static md:flex"
+      >
+        <div
+          class="flex h-14 items-center gap-2 border-b border-line px-4 font-bold"
+        >
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+          <span
+            class="ml-auto rounded bg-red-50 px-1.5 py-0.5 text-[11px] text-red-500"
+            >管理员</span
+          >
+        </div>
+        <nav class="flex-1 space-y-4 overflow-y-auto px-3 py-4">
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">控制台</p>
+            <a class="nav-item" href="console-dashboard.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="9" rx="1" />
+                <rect x="14" y="3" width="7" height="5" rx="1" />
+                <rect x="14" y="12" width="7" height="9" rx="1" />
+                <rect x="3" y="16" width="7" height="5" rx="1" /></svg
+              >数据看板</a
+            >
+            <a class="nav-item" href="console-wallet.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="12" cy="12" r="2.5" />
+                <path d="M6 10v4M18 10v4" /></svg
+              >钱包</a
+            >
+            <a class="nav-item" href="console-invite.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="8" width="18" height="4" rx="1" />
+                <path
+                  d="M5 12v8h14v-8M12 8v12M8.5 8c-2 0-3-1-3-2.5S7 3 8.5 3c2 0 3.5 2.5 3.5 5 0-2.5 1.5-5 3.5-5 1.5 0 3 1 3 2.5S20 8 18.5 8"
+                /></svg
+              >兑换中心</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">管理</p>
+            <a class="nav-item" href="admin-channels.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="4" width="20" height="7" rx="2" />
+                <rect x="2" y="13" width="20" height="7" rx="2" />
+                <path d="M6 7.5h.01M6 16.5h.01" /></svg
+              >渠道管理</a
+            >
+            <a class="nav-item active" href="admin-redemption.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                />
+                <path d="M14 3v6h6M9 13h6" /></svg
+              >兑换码管理</a
+            >
+            <a class="nav-item" href="admin-ratio.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" /></svg
+              >倍率与计费</a
+            >
+            <a class="nav-item" href="admin-users.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg
+              >用户与分组</a
+            >
+            <a class="nav-item" href="admin-settings.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z"
+                /></svg
+              >系统设置</a
+            >
+          </div>
+        </nav>
+        <div class="border-t border-line p-3">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="grid h-8 w-8 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700"
+              >王</span
+            >
+            <div class="min-w-0">
+              <p class="truncate text-sm font-medium">wang_admin</p>
+              <p class="text-xs text-faint">超级管理员</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header
+          class="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white/85 px-4 backdrop-blur"
+        >
+          <button
+            class="md:hidden rounded-md border border-line px-2 py-1 text-sm"
+            onclick="
+              document.getElementById('sidebar').classList.toggle('hidden')
+            "
+          >
+            ☰
+          </button>
+          <p class="text-sm text-sub">
+            管理端 / <span class="font-medium text-ink">兑换码管理</span>
+          </p>
+        </header>
+
+        <main class="flex-1 space-y-4 p-4 md:p-6">
+          <!-- 生成 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <h2 class="font-semibold">批量生成</h2>
+            <div class="mt-4 grid gap-3 text-sm md:grid-cols-4">
+              <label class="block"
+                ><span class="text-sub">数量</span
+                ><input
+                  value="1000"
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 outline-none focus:border-brand-400"
+              /></label>
+              <label class="block"
+                ><span class="text-sub">面值（元/码）</span
+                ><input
+                  value="20"
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 outline-none focus:border-brand-400"
+              /></label>
+              <label class="block"
+                ><span class="text-sub">有效期至</span
+                ><input
+                  value="2027-02-23"
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 outline-none focus:border-brand-400"
+              /></label>
+              <label class="block"
+                ><span class="text-sub">绑定分组</span>
+                <select
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 outline-none"
+                >
+                  <option>不限</option>
+                  <option>default</option>
+                  <option>vip</option>
+                </select></label
+              >
+              <label class="block"
+                ><span class="text-sub">码格式</span
+                ><input
+                  value="16 位 · 大写字母+数字（去 0O1I）"
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 text-xs outline-none focus:border-brand-400"
+              /></label>
+              <label class="block"
+                ><span class="text-sub">每码限兑次数</span
+                ><input
+                  value="1"
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 outline-none focus:border-brand-400"
+              /></label>
+              <label class="block md:col-span-2"
+                ><span class="text-sub">批次备注</span
+                ><input
+                  value="春节活动渠道A"
+                  class="mt-1 w-full rounded-lg border border-line px-3 py-2 outline-none focus:border-brand-400"
+              /></label>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <p class="text-xs text-faint">
+                生成后可导出 CSV（含明码），导出操作写入审计日志。
+              </p>
+              <button
+                class="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+              >
+                生成 1000 码
+              </button>
+            </div>
+          </div>
+
+          <!-- 批次列表 -->
+          <div class="rounded-xl border border-line bg-white">
+            <div class="border-b border-line px-5 py-3.5">
+              <h2 class="font-semibold">批次列表</h2>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[900px] text-sm">
+                <thead class="bg-canvas text-left text-xs text-sub">
+                  <tr>
+                    <th class="px-5 py-2.5 font-medium">批次号</th>
+                    <th class="px-5 py-2.5 font-medium">备注</th>
+                    <th class="px-5 py-2.5 font-medium">数量</th>
+                    <th class="px-5 py-2.5 font-medium">面值</th>
+                    <th class="px-5 py-2.5 font-medium">已兑 / 剩余</th>
+                    <th class="px-5 py-2.5 font-medium">兑付率</th>
+                    <th class="px-5 py-2.5 font-medium">有效期</th>
+                    <th class="px-5 py-2.5 font-medium">状态</th>
+                    <th class="px-5 py-2.5 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-line">
+                  <tr>
+                    <td class="px-5 py-2.5 font-mono text-xs">B-SPRING26</td>
+                    <td class="px-5 py-2.5 text-sub">春节活动渠道A</td>
+                    <td class="px-5 py-2.5">1,000</td>
+                    <td class="px-5 py-2.5">¥20</td>
+                    <td class="px-5 py-2.5 text-sub">217 / 783</td>
+                    <td class="px-5 py-2.5">21.7%</td>
+                    <td class="px-5 py-2.5 text-sub">至 2027-02-23</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >启用</span
+                      >
+                    </td>
+                    <td class="px-5 py-2.5 whitespace-nowrap text-right">
+                      <button class="text-brand-600 hover:underline">
+                        导出</button
+                      ><button class="ml-2 text-sub hover:text-ink">
+                        禁用
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-2.5 font-mono text-xs">B-618PROMO</td>
+                    <td class="px-5 py-2.5 text-sub">618 活动</td>
+                    <td class="px-5 py-2.5">5,000</td>
+                    <td class="px-5 py-2.5">¥10</td>
+                    <td class="px-5 py-2.5 text-sub">4,982 / 18</td>
+                    <td class="px-5 py-2.5">99.6%</td>
+                    <td class="px-5 py-2.5 text-sub">已过期</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-sub"
+                        >过期</span
+                      >
+                    </td>
+                    <td class="px-5 py-2.5 whitespace-nowrap text-right">
+                      <button class="text-brand-600 hover:underline">
+                        导出
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="opacity-80">
+                    <td class="px-5 py-2.5 font-mono text-xs">B-TAOBAO-B</td>
+                    <td class="px-5 py-2.5 text-sub">淘宝渠道 B</td>
+                    <td class="px-5 py-2.5">2,000</td>
+                    <td class="px-5 py-2.5">¥50</td>
+                    <td class="px-5 py-2.5 text-sub">640 / 1,360</td>
+                    <td class="px-5 py-2.5">32.0%</td>
+                    <td class="px-5 py-2.5 text-sub">至 2027-01-15</td>
+                    <td class="px-5 py-2.5">
+                      <span
+                        class="rounded-full bg-red-50 px-2 py-0.5 text-xs text-red-600"
+                        >已禁用</span
+                      >
+                    </td>
+                    <td class="px-5 py-2.5 whitespace-nowrap text-right">
+                      <button class="text-brand-600 hover:underline">
+                        启用</button
+                      ><button class="ml-2 text-sub hover:text-ink">
+                        导出
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="mt-3 text-xs leading-relaxed text-faint">
+            单码查询：输入码值查状态（未用/已用/过期/禁用 +
+            兑换人与时间）；并发兑换同一码以数据库唯一约束兜底仅一笔成功；禁用批次后未兑码全部失效。规则见设计文档
+            09 §3。
+          </p>
+        </main>
+      </div>
+    </div>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >定价</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>

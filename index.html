@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>连星 AI - 一个 API Key，调用全球主流大模型</title>
+    <meta
+      name="description"
+      content="统一的 AI 模型聚合与分发网关，OpenAI / Claude / Gemini 兼容接口，按量计费，国内直连。"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "PingFang SC",
+                "Hiragino Sans GB",
+                "Microsoft YaHei",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .hero-mesh {
+        background:
+          radial-gradient(
+            52rem 26rem at 12% -8%,
+            rgba(0, 100, 250, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            40rem 22rem at 88% -6%,
+            rgba(124, 58, 237, 0.09),
+            transparent 60%
+          ),
+          radial-gradient(
+            36rem 20rem at 55% 12%,
+            rgba(6, 182, 212, 0.07),
+            transparent 60%
+          );
+      }
+      .code-window {
+        background: #16181d;
+      }
+      .code-window code {
+        font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .reveal {
+          animation: rise 0.5s ease-out both;
+        }
+        @keyframes rise {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+      }
+      details > summary {
+        list-style: none;
+        cursor: pointer;
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+      details[open] .faq-chev {
+        transform: rotate(180deg);
+      }
+    </style>
+  </head>
+  <body class="bg-white text-ink antialiased">
+    <!-- 公告横幅 -->
+    <div id="banner" class="bg-brand-50 text-brand-800 text-sm">
+      <div
+        class="mx-auto max-w-6xl px-4 py-2 flex items-center justify-center gap-2"
+      >
+        <span>🎉 新模型 claude-opus-5-5 已上架，全分组可用</span>
+        <a href="#" class="underline underline-offset-2">查看公告</a>
+        <button
+          onclick="document.getElementById('banner').remove()"
+          class="ml-2 text-brand-400 hover:text-brand-700"
+          aria-label="关闭公告"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- 导航 -->
+    <header
+      class="sticky top-0 z-40 border-b border-line bg-white/85 backdrop-blur"
+    >
+      <nav class="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4">
+        <a href="index.html" class="flex items-center gap-2 font-bold">
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+        </a>
+        <div class="hidden items-center gap-5 text-sm text-sub md:flex">
+          <a href="models.html" class="hover:text-ink">模型广场</a>
+          <a href="pricing.html" class="hover:text-ink">定价</a>
+          <a href="#" class="hover:text-ink">文档</a>
+          <a href="#" class="hover:text-ink">公告</a>
+        </div>
+        <div class="ml-auto flex items-center gap-2">
+          <a
+            href="login.html"
+            class="rounded-md px-3 py-1.5 text-sm text-sub hover:text-ink"
+            >登录</a
+          >
+          <a
+            href="register.html"
+            class="rounded-md bg-brand-600 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-brand-700"
+            >免费注册</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-mesh reveal">
+      <div class="mx-auto max-w-6xl px-4 pb-16 pt-20 text-center">
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-white px-3 py-1 text-xs text-brand-700 shadow-sm"
+        >
+          已接入 12 家上游 · 提供 86 个模型
+        </span>
+        <h1
+          class="mx-auto mt-5 max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-[52px] md:leading-[1.15]"
+        >
+          一个 API Key，调用全球主流大模型
+        </h1>
+        <p
+          class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-sub md:text-lg"
+        >
+          OpenAI / Claude / Gemini
+          三种接口格式全兼容，按量计费、逐笔可查，国内直连无需科学上网。
+        </p>
+        <div class="mt-7 flex items-center justify-center gap-3">
+          <a
+            href="register.html"
+            class="rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-brand-700"
+            >免费注册</a
+          >
+          <a
+            href="pricing.html"
+            class="rounded-lg border border-line bg-white px-6 py-2.5 text-sm font-medium text-ink hover:border-brand-300 hover:text-brand-700"
+            >查看定价</a
+          >
+        </div>
+        <dl
+          class="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-y-6 text-center md:grid-cols-4"
+        >
+          <div>
+            <dt class="text-xs text-faint">已注册用户</dt>
+            <dd class="mt-1 text-2xl font-semibold">26,000+</dd>
+          </div>
+          <div>
+            <dt class="text-xs text-faint">今日请求</dt>
+            <dd class="mt-1 text-2xl font-semibold">1.2M</dd>
+          </div>
+          <div>
+            <dt class="text-xs text-faint">可用模型</dt>
+            <dd class="mt-1 text-2xl font-semibold">86</dd>
+          </div>
+          <div>
+            <dt class="text-xs text-faint">近 30 天成功率</dt>
+            <dd class="mt-1 text-2xl font-semibold">99.6%</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 模型支持墙 -->
+    <section class="border-y border-line bg-canvas">
+      <div class="mx-auto max-w-6xl px-4 py-12">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-xl font-semibold">已支持的模型家族</h2>
+          <a href="models.html" class="text-sm text-brand-600 hover:underline"
+            >进入模型广场 →</a
+          >
+        </div>
+        <div class="mt-6 grid grid-cols-3 gap-3 md:grid-cols-5">
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            OpenAI <span class="float-right text-xs text-faint">18 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            Claude <span class="float-right text-xs text-faint">9 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            Gemini <span class="float-right text-xs text-faint">11 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            DeepSeek <span class="float-right text-xs text-faint">6 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            Qwen <span class="float-right text-xs text-faint">8 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            GLM <span class="float-right text-xs text-faint">5 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            豆包 <span class="float-right text-xs text-faint">6 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            Grok <span class="float-right text-xs text-faint">4 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
+          >
+            Moonshot <span class="float-right text-xs text-faint">4 模型</span>
+          </div>
+          <div
+            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium text-sub"
+          >
+            + 自定义渠道
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 核心特性 -->
+    <section class="mx-auto max-w-6xl px-4 py-16">
+      <h2 class="text-xl font-semibold">为什么选连星 AI</h2>
+      <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-lg border border-line p-5">
+          <div class="text-brand-600">⌘</div>
+          <h3 class="mt-3 font-semibold">统一接口</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-sub">
+            OpenAI 兼容格式调用所有模型，替换 base_url 即完成迁移。
+          </p>
+        </div>
+        <div class="rounded-lg border border-line p-5">
+          <div class="text-brand-600">⇄</div>
+          <h3 class="mt-3 font-semibold">跨格式兼容</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-sub">
+            同一上游可同时以 OpenAI / Anthropic / Gemini 三种格式提供。
+          </p>
+        </div>
+        <div class="rounded-lg border border-line p-5">
+          <div class="text-brand-600">¥</div>
+          <h3 class="mt-3 font-semibold">按量计费</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-sub">
+            精确到 token 的透明计价，账单逐笔可查，失败请求不扣费。
+          </p>
+        </div>
+        <div class="rounded-lg border border-line p-5">
+          <div class="text-brand-600">≋</div>
+          <h3 class="mt-3 font-semibold">高可用</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-sub">
+            多渠道负载均衡，自动重试与故障转移，渠道异常分钟级切换。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三步接入（视觉重心：代码窗） -->
+    <section class="border-y border-line bg-canvas">
+      <div class="mx-auto max-w-6xl px-4 py-16">
+        <h2 class="text-xl font-semibold">三步接入</h2>
+        <div class="mt-8 grid items-start gap-8 lg:grid-cols-[1fr_1.4fr]">
+          <ol class="space-y-5">
+            <li class="flex gap-3">
+              <span
+                class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-600 text-xs font-semibold text-white"
+                >1</span
+              >
+              <div>
+                <p class="font-medium">注册账号</p>
+                <p class="mt-0.5 text-sm text-sub">
+                  邮箱注册，无需海外手机号与支付方式。
+                </p>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-600 text-xs font-semibold text-white"
+                >2</span
+              >
+              <div>
+                <p class="font-medium">创建 API 令牌</p>
+                <p class="mt-0.5 text-sm text-sub">
+                  控制台一键生成，可设额度、有效期与模型范围。
+                </p>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-600 text-xs font-semibold text-white"
+                >3</span
+              >
+              <div>
+                <p class="font-medium">替换 base_url</p>
+                <p class="mt-0.5 text-sm text-sub">
+                  现有代码只改一行，支持 OpenAI / Anthropic / Gemini SDK。
+                </p>
+              </div>
+            </li>
+            <li class="pl-9 text-sm text-sub">
+              也可以用 Cherry Studio、LobeChat、OpenCat 等客户端一键导入。
+            </li>
+          </ol>
+          <div class="code-window overflow-hidden rounded-xl shadow-lg">
+            <div
+              class="flex items-center gap-2 border-b border-white/10 px-4 py-2.5"
+            >
+              <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f57]"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-[#febc2e]"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-[#28c840]"></span>
+              <span class="ml-3 text-xs text-white/40">main.py</span>
+              <span
+                class="ml-auto rounded bg-white/10 px-2 py-0.5 text-[11px] text-white/60"
+                onclick="copyCode()"
+                style="cursor: pointer"
+                >复制</span
+              >
+            </div>
+            <code class="block px-5 py-4 text-white/85"
+              ><span class="text-white/40">1</span>
+              <span class="text-[#c586c0]">from</span> openai
+              <span class="text-[#c586c0]">import</span> OpenAI
+              <span class="text-white/40">2</span>
+              <span class="text-white/40">3</span> client = OpenAI(
+              <span class="text-white/40">4</span> api_key=<span
+                class="text-[#ce9178]"
+                >"sk-xxxx"</span
+              >, <span class="text-[#6a9955]"># 平台令牌</span>
+              <span class="text-white/40">5</span> base_url=<span
+                class="text-[#ce9178]"
+                >"https://api.asterlink.ai/v1"</span
+              >
+              <span class="text-[#6a9955]"># 只改这一行</span>
+              <span class="text-white/40">6</span> )
+              <span class="text-white/40">7</span>
+              <span class="text-white/40">8</span> resp =
+              client.chat.completions.<span class="text-[#dcdcaa]">create</span
+              >( <span class="text-white/40">9</span> model=<span
+                class="text-[#ce9178]"
+                >"claude-sonnet-5-5"</span
+              >, <span class="text-white/40">10</span> messages=[{<span
+                class="text-[#ce9178]"
+                >"role"</span
+              >: <span class="text-[#ce9178]">"user"</span>,
+              <span class="text-[#ce9178]">"content"</span>:
+              <span class="text-[#ce9178]">"你好"</span>}]
+              <span class="text-white/40">11</span> )</code
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 定价速览 -->
+    <section class="mx-auto max-w-6xl px-4 py-16">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-xl font-semibold">热门模型定价</h2>
+        <a href="pricing.html" class="text-sm text-brand-600 hover:underline"
+          >查看全部 86 个模型的价格 →</a
+        >
+      </div>
+      <div class="mt-6 overflow-x-auto rounded-lg border border-line">
+        <table class="w-full min-w-[640px] text-sm">
+          <thead class="bg-canvas text-left text-xs text-sub">
+            <tr>
+              <th class="px-4 py-3 font-medium">模型</th>
+              <th class="px-4 py-3 font-medium">输入价</th>
+              <th class="px-4 py-3 font-medium">输出价</th>
+              <th class="px-4 py-3 font-medium">能力</th>
+              <th class="px-4 py-3 font-medium">状态</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-line">
+            <tr>
+              <td class="px-4 py-3 font-medium">claude-sonnet-5-5</td>
+              <td class="px-4 py-3">¥22.00 / 1M</td>
+              <td class="px-4 py-3">¥110.00 / 1M</td>
+              <td class="px-4 py-3 text-sub">对话 · 视觉 · 工具</td>
+              <td class="px-4 py-3">
+                <span
+                  class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                  >可用</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium">gpt-5.2</td>
+              <td class="px-4 py-3">¥21.00 / 1M</td>
+              <td class="px-4 py-3">¥84.00 / 1M</td>
+              <td class="px-4 py-3 text-sub">对话 · 视觉 · 工具</td>
+              <td class="px-4 py-3">
+                <span
+                  class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                  >可用</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium">deepseek-v4</td>
+              <td class="px-4 py-3">¥2.00 / 1M</td>
+              <td class="px-4 py-3">¥8.00 / 1M</td>
+              <td class="px-4 py-3 text-sub">对话 · 推理</td>
+              <td class="px-4 py-3">
+                <span
+                  class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                  >可用</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium">gemini-3-pro</td>
+              <td class="px-4 py-3">¥8.70 / 1M</td>
+              <td class="px-4 py-3">¥36.00 / 1M</td>
+              <td class="px-4 py-3 text-sub">对话 · 视觉 · 长上下文</td>
+              <td class="px-4 py-3">
+                <span
+                  class="rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+                  >部分受限</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-3 text-xs text-faint">
+        价格为 default 分组牌价，已含全部费用；失败请求不扣费。
+      </p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="border-y border-line bg-canvas">
+      <div class="mx-auto max-w-3xl px-4 py-16">
+        <h2 class="text-xl font-semibold">常见问题</h2>
+        <div class="mt-6 space-y-3">
+          <details class="rounded-lg border border-line bg-white px-4 py-3">
+            <summary
+              class="flex items-center justify-between text-sm font-medium"
+            >
+              和直接买官方 API 有什么区别？<span class="faq-chev text-faint"
+                >▾</span
+              >
+            </summary>
+            <p class="mt-2 text-sm leading-relaxed text-sub">
+              无需海外手机号、海外支付方式与科学上网；人民币按量充值，模型价格与官方牌价对齐并公开可查。
+            </p>
+          </details>
+          <details class="rounded-lg border border-line bg-white px-4 py-3">
+            <summary
+              class="flex items-center justify-between text-sm font-medium"
+            >
+              如何计费？失败的请求扣费吗？<span class="faq-chev text-faint"
+                >▾</span
+              >
+            </summary>
+            <p class="mt-2 text-sm leading-relaxed text-sub">
+              按实际使用量计费，逐笔日志可查。上游或平台故障导致的失败请求不扣费；流式输出中途断开的请求按已产生部分结算。
+            </p>
+          </details>
+          <details class="rounded-lg border border-line bg-white px-4 py-3">
+            <summary
+              class="flex items-center justify-between text-sm font-medium"
+            >
+              支持哪些客户端和框架？<span class="faq-chev text-faint">▾</span>
+            </summary>
+            <p class="mt-2 text-sm leading-relaxed text-sub">
+              所有兼容 OpenAI / Anthropic / Gemini 接口的工具均可使用：Claude
+              Code、Codex CLI、Cherry Studio、LobeChat、LangChain 等。
+            </p>
+          </details>
+          <details class="rounded-lg border border-line bg-white px-4 py-3">
+            <summary
+              class="flex items-center justify-between text-sm font-medium"
+            >
+              我的对话内容会被存储吗？<span class="faq-chev text-faint">▾</span>
+            </summary>
+            <p class="mt-2 text-sm leading-relaxed text-sub">
+              默认只记录调用元数据（模型、token
+              数、耗时、费用），不存储对话内容明文。
+            </p>
+          </details>
+          <details class="rounded-lg border border-line bg-white px-4 py-3">
+            <summary
+              class="flex items-center justify-between text-sm font-medium"
+            >
+              支持哪些充值方式？可以退款吗？<span class="faq-chev text-faint"
+                >▾</span
+              >
+            </summary>
+            <p class="mt-2 text-sm leading-relaxed text-sub">
+              支持支付宝、微信扫码；也可通过兑换码充值。已消费部分不支持退款，未消费余额可联系客服处理。
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部 CTA -->
+    <section
+      class="bg-gradient-to-r from-brand-700 via-brand-600 to-violet-600"
+    >
+      <div
+        class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-12 text-center text-white"
+      >
+        <p class="text-xl font-semibold">注册即送体验额度，一分钟完成接入</p>
+        <a
+          href="register.html"
+          class="rounded-lg bg-white px-6 py-2.5 text-sm font-medium text-brand-700 hover:bg-brand-50"
+          >免费注册</a
+        >
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="border-t border-line bg-white">
+      <div
+        class="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm md:grid-cols-4"
+      >
+        <div>
+          <p class="font-semibold">产品</p>
+          <ul class="mt-3 space-y-2 text-sub">
+            <li><a href="models.html" class="hover:text-ink">模型广场</a></li>
+            <li><a href="pricing.html" class="hover:text-ink">定价</a></li>
+            <li><a href="#" class="hover:text-ink">API 文档</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold">支持</p>
+          <ul class="mt-3 space-y-2 text-sub">
+            <li><a href="#" class="hover:text-ink">常见问题</a></li>
+            <li><a href="#" class="hover:text-ink">联系我们</a></li>
+            <li><a href="#" class="hover:text-ink">服务状态</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold">法律</p>
+          <ul class="mt-3 space-y-2 text-sub">
+            <li><a href="#" class="hover:text-ink">服务条款</a></li>
+            <li><a href="#" class="hover:text-ink">隐私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold">社区</p>
+          <ul class="mt-3 space-y-2 text-sub">
+            <li>QQ 群：12345678</li>
+            <li>邮箱：support@asterlink.ai</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-line py-4 text-center text-xs text-faint">
+        © 2026 连星 AI ·
+        <a href="#" class="hover:text-sub">京ICP备2026000000号-1</a> ·
+        京公网安备11000000000000号
+      </div>
+    </footer>
+
+    <script>
+      function copyCode() {
+        navigator.clipboard &&
+          navigator.clipboard.writeText(
+            'from openai import OpenAI\nclient = OpenAI(\n    api_key="sk-xxxx",\n    base_url="https://api.asterlink.ai/v1"\n)',
+          );
+      }
+    </script>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >定价</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>

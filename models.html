@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模型广场 - 连星 AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .tab-active {
+        background: #0064fa;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <header
+      class="sticky top-0 z-40 border-b border-line bg-white/85 backdrop-blur"
+    >
+      <nav class="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4">
+        <a href="index.html" class="flex items-center gap-2 font-bold">
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+        </a>
+        <div class="hidden items-center gap-5 text-sm text-sub md:flex">
+          <a href="models.html" class="font-medium text-ink">模型广场</a>
+          <a href="pricing.html" class="hover:text-ink">定价</a>
+          <a href="#" class="hover:text-ink">文档</a>
+          <a href="#" class="hover:text-ink">公告</a>
+        </div>
+        <div class="ml-auto flex items-center gap-2">
+          <a
+            href="login.html"
+            class="rounded-md px-3 py-1.5 text-sm text-sub hover:text-ink"
+            >登录</a
+          >
+          <a
+            href="register.html"
+            class="rounded-md bg-brand-600 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-brand-700"
+            >免费注册</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 class="text-2xl font-bold">模型广场</h1>
+          <p class="mt-1 text-sm text-sub">
+            86 个模型 · 按家族与能力浏览 · 价格详见<a
+              href="pricing.html"
+              class="text-brand-600 hover:underline"
+              >定价页</a
+            >
+          </p>
+        </div>
+        <div class="flex rounded-lg border border-line bg-white p-0.5 text-sm">
+          <button class="tab-active rounded-md px-3 py-1.5">按热度</button>
+          <button class="rounded-md px-3 py-1.5 text-sub">按价格</button>
+          <button class="rounded-md px-3 py-1.5 text-sub">按名称</button>
+        </div>
+      </div>
+
+      <!-- 筛选 -->
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <button class="tab-active rounded-full px-3.5 py-1.5 text-sm">
+          全部
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3.5 py-1.5 text-sm text-sub"
+        >
+          OpenAI
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3.5 py-1.5 text-sm text-sub"
+        >
+          Claude
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3.5 py-1.5 text-sm text-sub"
+        >
+          Gemini
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3.5 py-1.5 text-sm text-sub"
+        >
+          DeepSeek
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3.5 py-1.5 text-sm text-sub"
+        >
+          Qwen
+        </button>
+        <span class="mx-2 h-5 w-px bg-line"></span>
+        <button
+          class="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-sub"
+        >
+          对话
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-sub"
+        >
+          视觉
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-sub"
+        >
+          推理
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-sub"
+        >
+          工具调用
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-sub"
+        >
+          图像生成
+        </button>
+        <button
+          class="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-sub"
+        >
+          嵌入
+        </button>
+        <input
+          type="search"
+          placeholder="搜索模型名…"
+          class="ml-auto w-44 rounded-lg border border-line bg-white px-3 py-1.5 text-sm outline-none placeholder:text-faint focus:border-brand-400"
+        />
+      </div>
+
+      <!-- 模型卡片 -->
+      <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">claude-sonnet-5-5</p>
+            <span
+              class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+              >可用</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">Anthropic · 200K 上下文</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">对话</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">视觉</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">工具调用</span>
+            <span class="rounded bg-brand-50 px-2 py-0.5 text-brand-700"
+              >热门</span
+            >
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub"
+              >¥22.00 <span class="text-xs text-faint">输入</span> / ¥110.00
+              <span class="text-xs text-faint">输出</span> / 1M</span
+            >
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">claude-opus-5-5</p>
+            <span
+              class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+              >可用</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">Anthropic · 200K 上下文</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">对话</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">视觉</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">推理</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">工具调用</span>
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥110.00 / ¥550.00 / 1M</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">gpt-5.2</p>
+            <span
+              class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+              >可用</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">OpenAI · 256K 上下文</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">对话</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">视觉</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">工具调用</span>
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥21.00 / ¥84.00 / 1M</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">deepseek-v4</p>
+            <span
+              class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+              >可用</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">DeepSeek · 128K 上下文</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">对话</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">推理</span>
+            <span class="rounded bg-brand-50 px-2 py-0.5 text-brand-700"
+              >高性价比</span
+            >
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥2.00 / ¥8.00 / 1M</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">gemini-3-pro</p>
+            <span
+              class="rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+              >部分受限</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">Google · 1M 上下文</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">对话</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">视觉</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">长上下文</span>
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥8.70 / ¥36.00 / 1M</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 opacity-70 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">grok-4</p>
+            <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-sub"
+              >维护中</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">xAI · 128K 上下文</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">对话</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">推理</span>
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥52.00 / ¥156.00 / 1M</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">gpt-image-2</p>
+            <span
+              class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+              >可用</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">OpenAI · 图像生成</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">图像生成</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">按次计费</span>
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥0.20 / 次</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer rounded-xl border border-line bg-white p-5 hover:border-brand-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-semibold">text-embedding-v5</p>
+            <span
+              class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+              >可用</span
+            >
+          </div>
+          <p class="mt-1 text-xs text-faint">Qwen · 嵌入</p>
+          <div class="mt-3 flex flex-wrap gap-1.5 text-xs">
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">嵌入</span>
+            <span class="rounded bg-canvas px-2 py-0.5 text-sub">RAG</span>
+          </div>
+          <div
+            class="mt-4 flex items-baseline justify-between border-t border-line pt-3 text-sm"
+          >
+            <span class="text-sub">¥0.50 / 1M</span>
+            <span class="text-xs text-brand-600">详情 →</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-5 text-center text-xs text-faint">
+        展示 86 个模型中的 8
+        个（原型示意）。登录后仅展示所在分组可用模型，分组外模型标注「{分组名}
+        分组可用」。
+      </p>
+    </main>
+
+    <footer class="border-t border-line bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-6 text-center text-xs text-faint">
+        © 2026 连星 AI · Asterlink ·
+        <a href="#" class="hover:text-sub">京ICP备2026000000号-1</a>
+      </div>
+    </footer>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >定价</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>系统设置 - 连星 AI 管理端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #646a73;
+      }
+      .nav-item:hover {
+        background: #f3f4f6;
+        color: #1c1f23;
+      }
+      .nav-item.active {
+        background: #eef4ff;
+        color: #0064fa;
+        font-weight: 500;
+      }
+      .cfg-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.55rem 0;
+      }
+      .cfg-row + .cfg-row {
+        border-top: 1px solid #f3f4f6;
+      }
+    </style>
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <div class="flex min-h-screen">
+      <!-- 侧边栏（active=系统设置） -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 hidden w-60 shrink-0 flex-col border-r border-line bg-white md:static md:flex"
+      >
+        <div
+          class="flex h-14 items-center gap-2 border-b border-line px-4 font-bold"
+        >
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+          <span
+            class="ml-auto rounded bg-red-50 px-1.5 py-0.5 text-[11px] text-red-500"
+            >管理员</span
+          >
+        </div>
+        <nav class="flex-1 space-y-4 overflow-y-auto px-3 py-4">
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">控制台</p>
+            <a class="nav-item" href="console-dashboard.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="9" rx="1" />
+                <rect x="14" y="3" width="7" height="5" rx="1" />
+                <rect x="14" y="12" width="7" height="9" rx="1" />
+                <rect x="3" y="16" width="7" height="5" rx="1" /></svg
+              >数据看板</a
+            >
+            <a class="nav-item" href="console-wallet.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="12" cy="12" r="2.5" />
+                <path d="M6 10v4M18 10v4" /></svg
+              >钱包</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">管理</p>
+            <a class="nav-item" href="admin-channels.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="4" width="20" height="7" rx="2" />
+                <rect x="2" y="13" width="20" height="7" rx="2" />
+                <path d="M6 7.5h.01M6 16.5h.01" /></svg
+              >渠道管理</a
+            >
+            <a class="nav-item" href="admin-redemption.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                />
+                <path d="M14 3v6h6M9 13h6" /></svg
+              >兑换码管理</a
+            >
+            <a class="nav-item" href="admin-ratio.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" /></svg
+              >倍率与计费</a
+            >
+            <a class="nav-item" href="admin-users.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg
+              >用户与分组</a
+            >
+            <a class="nav-item active" href="admin-settings.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z"
+                /></svg
+              >系统设置</a
+            >
+          </div>
+        </nav>
+        <div class="border-t border-line p-3">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="grid h-8 w-8 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700"
+              >王</span
+            >
+            <div class="min-w-0">
+              <p class="truncate text-sm font-medium">wang_admin</p>
+              <p class="text-xs text-faint">超级管理员</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header
+          class="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white/85 px-4 backdrop-blur"
+        >
+          <button
+            class="md:hidden rounded-md border border-line px-2 py-1 text-sm"
+            onclick="
+              document.getElementById('sidebar').classList.toggle('hidden')
+            "
+          >
+            ☰
+          </button>
+          <p class="text-sm text-sub">
+            管理端 / <span class="font-medium text-ink">系统设置</span>
+          </p>
+          <span class="ml-auto text-xs text-faint"
+            >支付 / 安全 / 系统组仅超级管理员可见（当前：超管）</span
+          >
+        </header>
+
+        <main class="flex-1 space-y-4 p-4 md:p-6">
+          <!-- 运营设置 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <h2 class="font-semibold">运营设置</h2>
+            <div class="mt-2 text-sm">
+              <div class="cfg-row">
+                <span>注册总开关 / 密码注册 / OAuth 注册（三级独立）</span
+                ><span class="flex gap-1"
+                  ><button
+                    class="rounded-md bg-brand-50 px-3 py-1 text-xs text-brand-700"
+                  >
+                    总开</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    密码开</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    OAuth 开
+                  </button></span
+                >
+              </div>
+              <div class="cfg-row">
+                <span>邮箱验证注册</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>新用户初始额度</span
+                ><input
+                  value="¥0.00"
+                  class="w-24 rounded-md border border-line px-2 py-1 text-xs outline-none focus:border-brand-400"
+                />
+              </div>
+              <div class="cfg-row">
+                <span>单用户令牌上限</span
+                ><input
+                  value="20"
+                  class="w-20 rounded-md border border-line px-2 py-1 text-xs outline-none focus:border-brand-400"
+                />
+              </div>
+              <div class="cfg-row">
+                <span>邀请功能 + 奖励规则（注册 ¥0.5 / 返利 2%）</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>每日签到 + 奖励规则</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>公告横幅 / 公告列表管理</span
+                ><button
+                  class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                >
+                  管理公告
+                </button>
+              </div>
+              <div class="cfg-row">
+                <span>首页配置（Hero / 模型墙 / 推荐模型 / FAQ / TDK）</span
+                ><button
+                  class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                >
+                  编辑
+                </button>
+              </div>
+              <div class="cfg-row">
+                <span>一键导入客户端深链清单</span
+                ><button
+                  class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                >
+                  7 项 · 编辑
+                </button>
+              </div>
+              <div class="cfg-row">
+                <span>模型排行榜开关</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>定价页访问门槛（公开 / 登录可见）</span
+                ><span class="text-xs text-sub">公开</span>
+              </div>
+              <div class="cfg-row">
+                <span>自用模式（隐藏商业化元素）</span
+                ><input type="checkbox" class="rounded" />
+              </div>
+              <div class="cfg-row">
+                <span>展示币种</span
+                ><select
+                  class="rounded-md border border-line px-2 py-1 text-xs"
+                >
+                  <option>¥ 人民币</option>
+                  <option>$ 美元</option>
+                </select>
+              </div>
+              <div class="cfg-row">
+                <span>备案号（ICP / 公安）</span
+                ><input
+                  value="京ICP备2026000000号-1"
+                  class="w-64 rounded-md border border-line px-2 py-1 text-xs outline-none focus:border-brand-400"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 支付设置 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <div class="flex items-center justify-between">
+              <h2 class="font-semibold">
+                支付设置
+                <span
+                  class="ml-1 rounded bg-red-50 px-1.5 py-0.5 text-[11px] text-red-500"
+                  >仅超管</span
+                >
+              </h2>
+              <span class="rounded bg-red-50 px-2 py-1 text-xs text-red-600"
+                >沙箱测试模式已开启</span
+              >
+            </div>
+            <div class="mt-2 text-sm">
+              <div class="cfg-row">
+                <span>支付网关</span
+                ><span class="font-mono text-xs text-sub"
+                  >易支付 · mer***28 · 密钥 ******（脱敏）</span
+                >
+              </div>
+              <div class="cfg-row">
+                <span>支付方式</span
+                ><span class="flex gap-1"
+                  ><button
+                    class="rounded-md bg-brand-50 px-3 py-1 text-xs text-brand-700"
+                  >
+                    支付宝</button
+                  ><button
+                    class="rounded-md bg-brand-50 px-3 py-1 text-xs text-brand-700"
+                  >
+                    微信</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    USDT 关
+                  </button></span
+                >
+              </div>
+              <div class="cfg-row">
+                <span>充值限额（单笔 / 单日 / 新号首日）</span
+                ><span class="text-xs text-sub">¥5,000 / ¥20,000 / ¥500</span>
+              </div>
+              <div class="cfg-row">
+                <span>充值倍率与赠送</span
+                ><button
+                  class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                >
+                  跳转倍率设置
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 速率与超时 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <h2 class="font-semibold">速率限制与超时</h2>
+            <div class="mt-2 text-sm">
+              <div class="cfg-row">
+                <span>全局每用户 RPM</span
+                ><input
+                  value="60"
+                  class="w-20 rounded-md border border-line px-2 py-1 text-xs outline-none focus:border-brand-400"
+                />
+              </div>
+              <div class="cfg-row">
+                <span>免费模型独立 RPM（倍率 0 防滥用）</span
+                ><input
+                  value="10"
+                  class="w-20 rounded-md border border-line px-2 py-1 text-xs outline-none focus:border-brand-400"
+                />
+              </div>
+              <div class="cfg-row">
+                <span>渠道重试预算</span
+                ><input
+                  value="3"
+                  class="w-20 rounded-md border border-line px-2 py-1 text-xs outline-none focus:border-brand-400"
+                />
+              </div>
+              <div class="cfg-row">
+                <span>超时（连接 / 非流式 / 流式首字）</span
+                ><span class="text-xs text-sub">5s / 120s / 60s</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 监控告警 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <div class="flex items-center justify-between">
+              <h2 class="font-semibold">监控与告警</h2>
+              <button
+                class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+              >
+                发送测试消息
+              </button>
+            </div>
+            <div class="mt-2 text-sm">
+              <div class="cfg-row">
+                <span>告警渠道</span
+                ><span class="flex gap-1"
+                  ><button
+                    class="rounded-md bg-brand-50 px-3 py-1 text-xs text-brand-700"
+                  >
+                    飞书 Webhook</button
+                  ><button
+                    class="rounded-md bg-brand-50 px-3 py-1 text-xs text-brand-700"
+                  >
+                    SMTP 邮件</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    Telegram 关
+                  </button></span
+                >
+              </div>
+              <div class="cfg-row">
+                <span>告警事件</span
+                ><span class="text-xs text-sub"
+                  >渠道熔断/恢复 · 模型无可用渠道 · 回调失败堆积 · 消耗突增 ·
+                  证书到期</span
+                >
+              </div>
+              <div class="cfg-row">
+                <span>同事件聚合去重</span
+                ><span class="text-xs text-sub">10 分钟</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 系统维护 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <h2 class="font-semibold">
+              系统维护
+              <span
+                class="ml-1 rounded bg-red-50 px-1.5 py-0.5 text-[11px] text-red-500"
+                >仅超管</span
+              >
+            </h2>
+            <div class="mt-2 text-sm">
+              <div class="cfg-row">
+                <span>维护模式（注册 / 充值 / 网关 三档独立）</span
+                ><span class="flex gap-1"
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    注册：正常</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    充值：正常</button
+                  ><button
+                    class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                  >
+                    网关：正常
+                  </button></span
+                >
+              </div>
+              <div class="cfg-row">
+                <span>日志保留（用户侧 / 管理端）</span
+                ><span class="text-xs text-sub">180 天 / 365 天</span>
+              </div>
+              <div class="cfg-row">
+                <span>缓存管理</span
+                ><button
+                  class="rounded-md border border-line px-3 py-1 text-xs text-sub"
+                >
+                  清理配置缓存
+                </button>
+              </div>
+              <div class="cfg-row">
+                <span>系统信息</span
+                ><span class="text-xs text-sub"
+                  >DB ✓ · Redis ✓ · 队列积压 0 · 版本 v1.0.0</span
+                >
+              </div>
+            </div>
+            <p class="mt-3 text-xs leading-relaxed text-faint">
+              全部修改写操作审计（操作人 / 时间 / 旧值→新值 /
+              IP）；行为类配置即时生效（缓存主动失效），内容类 ≤ 5
+              分钟。规则见设计文档 15。
+            </p>
+          </div>
+        </main>
+      </div>
+    </div>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >定价</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>

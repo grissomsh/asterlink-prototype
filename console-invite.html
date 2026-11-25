@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>兑换中心 - 连星 AI 控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dce7fe",
+                200: "#c0d4fd",
+                300: "#94b7fb",
+                400: "#6190f7",
+                500: "#3d6cf3",
+                600: "#0064fa",
+                700: "#0055d4",
+                800: "#0647ab",
+                900: "#0b3e86",
+              },
+              ink: "#1c1f23",
+              sub: "#646a73",
+              faint: "#8f959e",
+              line: "#e5e7eb",
+              canvas: "#f9fafb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          sans-serif;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #646a73;
+      }
+      .nav-item:hover {
+        background: #f3f4f6;
+        color: #1c1f23;
+      }
+      .nav-item.active {
+        background: #eef4ff;
+        color: #0064fa;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <div class="flex min-h-screen">
+      <!-- 侧边栏（同前，active=兑换中心） -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 hidden w-60 shrink-0 flex-col border-r border-line bg-white md:static md:flex"
+      >
+        <div
+          class="flex h-14 items-center gap-2 border-b border-line px-4 font-bold"
+        >
+          <span
+            class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-violet-500 text-sm text-white"
+            >连</span
+          >
+          连星 AI
+          <span
+            class="ml-auto rounded bg-canvas px-1.5 py-0.5 text-[11px] text-faint"
+            >default</span
+          >
+        </div>
+        <nav class="flex-1 space-y-4 overflow-y-auto px-3 py-4">
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">构建</p>
+            <a class="nav-item" href="playground.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m8 9-3 3 3 3m8-6 3 3-3 3" />
+                <rect x="3" y="4" width="18" height="16" rx="2" /></svg
+              >操练场</a
+            >
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 12a8 8 0 0 1-8 8H4l2.5-2.5A8 8 0 1 1 21 12Z"
+                /></svg
+              >在线聊天</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">控制台</p>
+            <a class="nav-item" href="console-dashboard.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="9" rx="1" />
+                <rect x="14" y="3" width="7" height="5" rx="1" />
+                <rect x="14" y="12" width="7" height="9" rx="1" />
+                <rect x="3" y="16" width="7" height="5" rx="1" /></svg
+              >数据看板</a
+            >
+            <a class="nav-item" href="console-tokens.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="8" cy="12" r="4" />
+                <path d="M12 12h9m-3-3v6" /></svg
+              >API 令牌</a
+            >
+            <a class="nav-item" href="console-logs.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                />
+                <path d="M14 3v6h6M9 13h6M9 17h6" /></svg
+              >使用日志</a
+            >
+            <a class="nav-item" href="console-wallet.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="12" cy="12" r="2.5" />
+                <path d="M6 10v4M18 10v4" /></svg
+              >钱包</a
+            >
+            <a class="nav-item active" href="console-invite.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="8" width="18" height="4" rx="1" />
+                <path
+                  d="M5 12v8h14v-8M12 8v12M8.5 8c-2 0-3-1-3-2.5S7 3 8.5 3c2 0 3.5 2.5 3.5 5 0-2.5 1.5-5 3.5-5 1.5 0 3 1 3 2.5S20 8 18.5 8"
+                /></svg
+              >兑换中心</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">账号</p>
+            <a class="nav-item" href="#"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg
+              >个人设置</a
+            >
+            <a class="nav-item" href="console-invite.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="9" cy="8" r="3.5" />
+                <path d="M2 20c1-3.5 4-5 7-5s6 1.5 7 5" />
+                <circle cx="17" cy="9" r="3" />
+                <path d="M16.5 14.5c2.5.3 4.5 1.7 5.5 4" /></svg
+              >邀请返利</a
+            >
+          </div>
+          <div>
+            <p class="px-2 pb-1 text-[11px] text-faint">管理</p>
+            <a class="nav-item" href="admin-redemption.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                />
+                <path d="M14 3v6h6M9 13h6" /></svg
+              >兑换码管理</a
+            >
+            <a class="nav-item" href="admin-channels.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="4" width="20" height="7" rx="2" />
+                <rect x="2" y="13" width="20" height="7" rx="2" />
+                <path d="M6 7.5h.01M6 16.5h.01" /></svg
+              >渠道管理</a
+            >
+            <a class="nav-item" href="admin-users.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg
+              >用户管理</a
+            >
+            <a class="nav-item" href="admin-settings.html"
+              ><svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z"
+                /></svg
+              >系统设置</a
+            >
+          </div>
+        </nav>
+        <div class="border-t border-line p-3">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="grid h-8 w-8 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700"
+              >王</span
+            >
+            <div class="min-w-0">
+              <p class="truncate text-sm font-medium">wang_dev</p>
+              <p class="text-xs text-faint">余额 ¥1,284.50</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header
+          class="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white/85 px-4 backdrop-blur"
+        >
+          <button
+            class="md:hidden rounded-md border border-line px-2 py-1 text-sm"
+            onclick="
+              document.getElementById('sidebar').classList.toggle('hidden')
+            "
+          >
+            ☰
+          </button>
+          <p class="text-sm text-sub">
+            控制台 / <span class="font-medium text-ink">兑换中心</span>
+          </p>
+        </header>
+
+        <main class="flex-1 space-y-4 p-4 md:p-6">
+          <div class="grid gap-4 lg:grid-cols-2">
+            <!-- 兑换 -->
+            <div class="rounded-xl border border-line bg-white p-5">
+              <h2 class="font-semibold">兑换码充值</h2>
+              <div class="mt-4 flex gap-2">
+                <input
+                  type="text"
+                  placeholder="输入 16 位兑换码，如 K7PQ2M9XRD4TB6WL"
+                  class="w-full rounded-lg border border-line px-3 py-2 font-mono text-sm uppercase outline-none placeholder:text-faint focus:border-brand-400"
+                />
+                <button
+                  class="shrink-0 rounded-lg bg-brand-600 px-5 text-sm font-medium text-white hover:bg-brand-700"
+                >
+                  兑换
+                </button>
+              </div>
+              <p
+                class="mt-2 rounded-lg bg-emerald-50 px-3 py-2 text-xs text-emerald-700"
+              >
+                ✓ 兑换成功，到账 ¥20.00（示例：成功态）
+              </p>
+              <p class="mt-2 text-xs leading-relaxed text-faint">
+                无效 / 已用 / 过期 /
+                已禁用将分别给出明确提示；兑换入账记「兑换」流水。兑换码可从官方渠道购买或活动获得。
+              </p>
+            </div>
+
+            <!-- 签到 -->
+            <div class="rounded-xl border border-line bg-white p-5">
+              <div class="flex items-center justify-between">
+                <h2 class="font-semibold">每日签到</h2>
+                <span class="text-xs text-faint">连续 6 天</span>
+              </div>
+              <div class="mt-4 flex items-center gap-4">
+                <button
+                  class="rounded-lg border border-line bg-canvas px-5 py-2.5 text-sm text-faint"
+                  disabled
+                >
+                  今日已签到
+                </button>
+                <div class="flex gap-1.5">
+                  <span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span
+                  ><span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span
+                  ><span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span
+                  ><span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-line"></span>
+                </div>
+                <span class="text-xs text-faint">连续 7 天额外 +¥1</span>
+              </div>
+              <p class="mt-4 text-xs leading-relaxed text-faint">
+                基础奖励 ¥0.1/天，随机奖励
+                ¥0.1~¥0.5（当日运营策略而定）；断签重计连续天数。同设备多账号仅首个账号生效。
+              </p>
+            </div>
+          </div>
+
+          <!-- 邀请返利 -->
+          <div class="rounded-xl border border-line bg-white p-5">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="font-semibold">邀请返利</h2>
+              <div class="flex items-center gap-2 text-sm">
+                <input
+                  type="text"
+                  readonly
+                  value="https://ai.asterlink.cn/register?aff=WANG8K2M"
+                  class="w-72 rounded-lg border border-line bg-canvas px-3 py-1.5 font-mono text-xs text-sub"
+                />
+                <button
+                  class="rounded-md border border-line px-3 py-1.5 text-xs text-sub hover:text-ink"
+                >
+                  复制链接
+                </button>
+              </div>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
+              <div class="rounded-lg bg-canvas p-3">
+                <p class="text-xs text-faint">已邀请用户</p>
+                <p class="mt-1 text-xl font-semibold">14</p>
+              </div>
+              <div class="rounded-lg bg-canvas p-3">
+                <p class="text-xs text-faint">注册奖励累计</p>
+                <p class="mt-1 text-xl font-semibold">¥7.00</p>
+              </div>
+              <div class="rounded-lg bg-canvas p-3">
+                <p class="text-xs text-faint">消费返利累计（2%）</p>
+                <p class="mt-1 text-xl font-semibold">¥36.80</p>
+              </div>
+              <div class="rounded-lg bg-canvas p-3">
+                <p class="text-xs text-faint">被邀请人当前消费</p>
+                <p class="mt-1 text-xl font-semibold">¥1,840.00</p>
+              </div>
+            </div>
+            <div class="mt-4 overflow-x-auto">
+              <table class="w-full min-w-[640px] text-sm">
+                <thead class="bg-canvas text-left text-xs text-sub">
+                  <tr>
+                    <th class="px-4 py-2.5 font-medium">用户（脱敏）</th>
+                    <th class="px-4 py-2.5 font-medium">注册时间</th>
+                    <th class="px-4 py-2.5 font-medium">状态</th>
+                    <th class="px-4 py-2.5 font-medium">为我带来</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-line">
+                  <tr>
+                    <td class="px-4 py-2.5">d***01</td>
+                    <td class="px-4 py-2.5 text-sub">2026-11-20</td>
+                    <td class="px-4 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >已充值</span
+                      >
+                    </td>
+                    <td class="px-4 py-2.5">¥0.50 + 返利 ¥12.40</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2.5">m***ng</td>
+                    <td class="px-4 py-2.5 text-sub">2026-11-18</td>
+                    <td class="px-4 py-2.5">
+                      <span
+                        class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700"
+                        >已充值</span
+                      >
+                    </td>
+                    <td class="px-4 py-2.5">¥0.50 + 返利 ¥21.60</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2.5">t***02</td>
+                    <td class="px-4 py-2.5 text-sub">2026-11-16</td>
+                    <td class="px-4 py-2.5">
+                      <span
+                        class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-sub"
+                        >已注册</span
+                      >
+                    </td>
+                    <td class="px-4 py-2.5">¥0.50</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 text-xs leading-relaxed text-faint">
+              规则：被邀请人注册奖励 ¥0.5、消费返利 2%（仅一级邀请）；同 IP/设备
+              30
+              天内多账号只计一次；被邀请人退款或封号将冲销对应奖励；疑似刷量冻结发放并进入人工审核。返利以「赠送」流水入账。
+            </p>
+          </div>
+        </main>
+      </div>
+    </div>
+    <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
+      <details>
+        <summary
+          style="list-style: none"
+          class="cursor-pointer select-none rounded-full bg-gray-900/90 px-4 py-2 text-xs text-white shadow-lg hover:bg-gray-900"
+        >
+          页面导航 ▾
+        </summary>
+        <div
+          class="mt-2 w-48 rounded-xl border border-line bg-white p-2 text-sm shadow-xl"
+        >
+          <p class="px-2 pb-1 text-[11px] text-faint">门户</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="index.html"
+            >首页</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="models.html"
+            >模型广场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="pricing.html"
+            >定价</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="login.html"
+            >登录</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="register.html"
+            >注册</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">控制台</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-dashboard.html"
+            >数据看板</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="playground.html"
+            >操练场</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-tokens.html"
+            >API 令牌</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-logs.html"
+            >使用日志</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-wallet.html"
+            >钱包</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="console-invite.html"
+            >兑换·签到·邀请</a
+          >
+          <p class="px-2 pt-2 pb-1 text-[11px] text-faint">管理端</p>
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-channels.html"
+            >渠道管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-redemption.html"
+            >兑换码管理</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-ratio.html"
+            >倍率与计费</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-users.html"
+            >用户与分组</a
+          >
+          <a
+            class="block rounded-md px-2 py-1 hover:bg-canvas"
+            href="admin-settings.html"
+            >系统设置</a
+          >
+        </div>
+      </details>
+    </div>
+  </body>
+</html>
