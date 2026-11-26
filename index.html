@@ -234,67 +234,97 @@
       </div>
     </section>
 
-    <!-- 模型支持墙 -->
+<!-- 模型支持墙（家族卡片展开示例模型；内容由运营后台配置） -->
     <section class="border-y border-line bg-canvas">
       <div class="mx-auto max-w-6xl px-4 py-12">
         <div class="flex items-baseline justify-between">
           <h2 class="text-xl font-semibold">已支持的模型家族</h2>
-          <a href="pricing.html" class="text-sm text-brand-600 hover:underline"
-            >进入模型广场 →</a
-          >
+          <a href="models.html" class="text-sm text-brand-600 hover:underline">进入可用模型 →</a>
         </div>
-        <div class="mt-6 grid grid-cols-3 gap-3 md:grid-cols-5">
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            OpenAI <span class="float-right text-xs text-faint">18 模型</span>
+        <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-gray-900 text-xs font-bold text-white">O</span>
+              <div><p class="text-sm font-semibold">OpenAI</p><p class="text-xs text-faint">18 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">gpt-5.2</span><span class="rounded bg-canvas px-2 py-0.5">gpt-5.2-mini</span><span class="rounded bg-canvas px-2 py-0.5">+15</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            Claude <span class="float-right text-xs text-faint">9 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-[#d97757] text-xs font-bold text-white">C</span>
+              <div><p class="text-sm font-semibold">Claude</p><p class="text-xs text-faint">9 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">opus-5-5</span><span class="rounded bg-canvas px-2 py-0.5">sonnet-5-5</span><span class="rounded bg-canvas px-2 py-0.5">+7</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            Gemini <span class="float-right text-xs text-faint">11 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-sky-400 text-xs font-bold text-white">G</span>
+              <div><p class="text-sm font-semibold">Gemini</p><p class="text-xs text-faint">11 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">3-pro</span><span class="rounded bg-canvas px-2 py-0.5">3-flash</span><span class="rounded bg-canvas px-2 py-0.5">+9</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            DeepSeek <span class="float-right text-xs text-faint">6 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-xs font-bold text-white">D</span>
+              <div><p class="text-sm font-semibold">DeepSeek</p><p class="text-xs text-faint">6 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">v4</span><span class="rounded bg-canvas px-2 py-0.5">v4.1-flash</span><span class="rounded bg-canvas px-2 py-0.5">+4</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            Qwen <span class="float-right text-xs text-faint">8 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-violet-600 text-xs font-bold text-white">Q</span>
+              <div><p class="text-sm font-semibold">Qwen</p><p class="text-xs text-faint">8 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">4-max</span><span class="rounded bg-canvas px-2 py-0.5">4-plus</span><span class="rounded bg-canvas px-2 py-0.5">+6</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            GLM <span class="float-right text-xs text-faint">5 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-cyan-600 text-xs font-bold text-white">G</span>
+              <div><p class="text-sm font-semibold">GLM</p><p class="text-xs text-faint">5 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">glm-5</span><span class="rounded bg-canvas px-2 py-0.5">glm-5-air</span><span class="rounded bg-canvas px-2 py-0.5">+3</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            豆包 <span class="float-right text-xs text-faint">6 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-sky-500 text-xs font-bold text-white">豆</span>
+              <div><p class="text-sm font-semibold">豆包</p><p class="text-xs text-faint">6 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">pro</span><span class="rounded bg-canvas px-2 py-0.5">lite</span><span class="rounded bg-canvas px-2 py-0.5">+4</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            Grok <span class="float-right text-xs text-faint">4 模型</span>
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-gray-800 text-xs font-bold text-white">𝕏</span>
+              <div><p class="text-sm font-semibold">Grok</p><p class="text-xs text-faint">4 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">grok-4</span><span class="rounded bg-canvas px-2 py-0.5">grok-4-mini</span><span class="rounded bg-canvas px-2 py-0.5">+2</span>
+            </div>
           </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium"
-          >
-            Moonshot <span class="float-right text-xs text-faint">4 模型</span>
-          </div>
-          <div
-            class="rounded-lg border border-line bg-white px-4 py-3 text-sm font-medium text-sub"
-          >
-            + 自定义渠道
+          <div class="rounded-xl border border-line bg-white p-4">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-slate-600 text-xs font-bold text-white">M</span>
+              <div><p class="text-sm font-semibold">Moonshot</p><p class="text-xs text-faint">4 个模型</p></div>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[11px] text-sub">
+              <span class="rounded bg-canvas px-2 py-0.5">k2</span><span class="rounded bg-canvas px-2 py-0.5">+3</span>
+            </div>
           </div>
         </div>
+        <p class="mt-4 text-xs text-faint">以上为模型家族与代表模型示意，实际可用以控制台「可用模型」为准；家族与模型清单由运营在后台配置。</p>
       </div>
     </section>
 
@@ -505,70 +535,10 @@
       </p>
     </section>
 
-    <!-- FAQ -->
+<!-- FAQ 入口（首页只留链接，内容在 faq.html） -->
     <section class="border-y border-line bg-canvas">
-      <div class="mx-auto max-w-3xl px-4 py-16">
-        <h2 class="text-xl font-semibold">常见问题</h2>
-        <div class="mt-6 space-y-3">
-          <details class="rounded-lg border border-line bg-white px-4 py-3">
-            <summary
-              class="flex items-center justify-between text-sm font-medium"
-            >
-              和直接买官方 API 有什么区别？<span class="faq-chev text-faint"
-                >▾</span
-              >
-            </summary>
-            <p class="mt-2 text-sm leading-relaxed text-sub">
-              无需海外手机号、海外支付方式与科学上网；人民币按量充值，模型价格与官方牌价对齐并公开可查。
-            </p>
-          </details>
-          <details class="rounded-lg border border-line bg-white px-4 py-3">
-            <summary
-              class="flex items-center justify-between text-sm font-medium"
-            >
-              如何计费？失败的请求扣费吗？<span class="faq-chev text-faint"
-                >▾</span
-              >
-            </summary>
-            <p class="mt-2 text-sm leading-relaxed text-sub">
-              按实际使用量计费，逐笔日志可查。上游或平台故障导致的失败请求不扣费；流式输出中途断开的请求按已产生部分结算。
-            </p>
-          </details>
-          <details class="rounded-lg border border-line bg-white px-4 py-3">
-            <summary
-              class="flex items-center justify-between text-sm font-medium"
-            >
-              支持哪些客户端和框架？<span class="faq-chev text-faint">▾</span>
-            </summary>
-            <p class="mt-2 text-sm leading-relaxed text-sub">
-              所有兼容 OpenAI / Anthropic / Gemini 接口的工具均可使用：Claude
-              Code、Codex CLI、Cherry Studio、LobeChat、LangChain 等。
-            </p>
-          </details>
-          <details class="rounded-lg border border-line bg-white px-4 py-3">
-            <summary
-              class="flex items-center justify-between text-sm font-medium"
-            >
-              我的对话内容会被存储吗？<span class="faq-chev text-faint">▾</span>
-            </summary>
-            <p class="mt-2 text-sm leading-relaxed text-sub">
-              默认只记录调用元数据（模型、token
-              数、耗时、费用），不存储对话内容明文。
-            </p>
-          </details>
-          <details class="rounded-lg border border-line bg-white px-4 py-3">
-            <summary
-              class="flex items-center justify-between text-sm font-medium"
-            >
-              支持哪些充值方式？可以退款吗？<span class="faq-chev text-faint"
-                >▾</span
-              >
-            </summary>
-            <p class="mt-2 text-sm leading-relaxed text-sub">
-              支持支付宝、微信扫码；也可通过兑换码充值。已消费部分不支持退款，未消费余额可联系客服处理。
-            </p>
-          </details>
-        </div>
+      <div class="mx-auto max-w-6xl px-4 py-8 text-center">
+        <a href="faq.html" class="text-sm text-brand-600 hover:underline">还有疑问？查看常见问题 →</a>
       </div>
     </section>
 
@@ -604,7 +574,7 @@
         <div>
           <p class="font-semibold">支持</p>
           <ul class="mt-3 space-y-2 text-sub">
-            <li><a href="#" class="hover:text-ink">常见问题</a></li>
+            <li><a href="faq.html" class="hover:text-ink">常见问题</a></li>
             <li><a href="#" class="hover:text-ink">联系我们</a></li>
             <li><a href="#" class="hover:text-ink">服务状态</a></li>
           </ul>
