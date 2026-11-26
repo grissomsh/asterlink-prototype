@@ -148,6 +148,10 @@
           <a href="#" class="hover:text-ink">公告</a>
         </div>
         <div class="ml-auto flex items-center gap-2">
+      <button id="ann-bell" class="relative rounded-md p-1.5 text-sub hover:text-ink" onclick="openAnn()" aria-label="系统公告">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span id="ann-badge" class="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-red-500 text-[10px] font-medium text-white">3</span>
+      </button>
           <a
             href="login.html"
             class="rounded-md px-3 py-1.5 text-sm text-sub hover:text-ink"
@@ -628,7 +632,31 @@
     </footer>
 
     <script>
-      function copyBase() {
+      const TODAY = new Date().toISOString().slice(0, 10);
+    function openAnn() {
+      const m = document.getElementById("ann-modal");
+      m.classList.remove("hidden");
+      m.classList.add("flex");
+      localStorage.setItem("announce_read", TODAY);
+      const b = document.getElementById("ann-badge");
+      if (b) b.remove();
+    }
+    function closeAnn(todayOnly) {
+      if (todayOnly) localStorage.setItem("announce_hide", TODAY);
+      const m = document.getElementById("ann-modal");
+      m.classList.add("hidden");
+      m.classList.remove("flex");
+    }
+    function annTab(t) {
+      document.getElementById("pane-notice").classList.toggle("hidden", t !== "notice");
+      document.getElementById("pane-timeline").classList.toggle("hidden", t !== "timeline");
+      document.getElementById("tab-notice").className = t === "notice" ? "tab-active flex-1 rounded-md py-1.5" : "flex-1 rounded-md py-1.5 text-sub";
+      document.getElementById("tab-timeline").className = t === "timeline" ? "tab-active flex-1 rounded-md py-1.5" : "flex-1 rounded-md py-1.5 text-sub";
+    }
+    (function () {
+      if (localStorage.getItem("announce_hide") !== TODAY) openAnn();
+    })();
+    function copyBase() {
         navigator.clipboard &&
           navigator.clipboard.writeText("https://api.asterlink.ai/v1");
       }
@@ -639,6 +667,55 @@
           );
       }
     </script>
+    <!-- 进站公告弹窗（通知/时间线，对标 147ai） -->
+    <div id="ann-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/40">
+      <div class="w-[540px] max-w-[92vw] rounded-2xl bg-white p-6 shadow-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <h2 class="text-lg font-bold">系统公告</h2>
+            <p class="mt-0.5 text-xs text-faint">最新平台更新和通知</p>
+          </div>
+        </div>
+        <div class="mt-4 flex rounded-lg bg-canvas p-0.5 text-sm">
+          <button id="tab-notice" onclick="annTab('notice')" class="tab-active flex-1 rounded-md py-1.5">🔔 通知</button>
+          <button id="tab-timeline" onclick="annTab('timeline')" class="flex-1 rounded-md py-1.5 text-sub">🕘 时间线</button>
+        </div>
+        <div id="pane-notice" class="mt-4 max-h-[320px] overflow-y-auto text-sm leading-relaxed">
+          <p class="text-sub">尊敬的用户：</p>
+          <p class="mt-1 text-sub">您好！</p>
+          <p class="mt-2">受上游供应商调价影响，claude 系列模型资源成本持续上涨。经评估，平台将对 claude 分组倍率进行调整：</p>
+          <ul class="mt-2 list-disc space-y-1 pl-5">
+            <li>调整前倍率：<b>1.05x</b></li>
+            <li>调整后倍率：<b>1.15x</b>（2026-11-28 生效）</li>
+          </ul>
+          <p class="mt-2">调整前充值的额度不受影响；如需锁价，可在生效前完成充值。感谢各位用户一直以来的理解与支持！</p>
+        </div>
+        <div id="pane-timeline" class="mt-4 hidden max-h-[320px] overflow-y-auto text-sm">
+          <ul class="space-y-4">
+            <li class="border-l-2 border-line pl-4">
+              <p class="font-medium">claude 分组倍率调整公告（1.05x → 1.15x）</p>
+              <p class="mt-0.5 text-xs text-faint">今天 · 2026-11-26 09:20</p>
+            </li>
+            <li class="border-l-2 border-line pl-4">
+              <p class="font-medium">gpt-5.2 全分组上架，支持工具调用与视觉</p>
+              <p class="mt-0.5 text-xs text-faint">6 天前 · 2026-11-20 14:05</p>
+            </li>
+            <li class="border-l-2 border-line pl-4">
+              <p class="font-medium">渠道实况：gemini-3-pro 部分受限已恢复</p>
+              <p class="mt-0.5 text-xs text-faint">8 天前 · 2026-11-18 10:41</p>
+            </li>
+            <li class="border-l-2 border-line pl-4">
+              <p class="font-medium">新增「特价」分组（×0.8），deepseek-v4 推理场景适用</p>
+              <p class="mt-0.5 text-xs text-faint">11 天前 · 2026-11-15 16:30</p>
+            </li>
+          </ul>
+        </div>
+        <div class="mt-5 flex justify-end gap-2">
+          <button onclick="closeAnn(true)" class="rounded-md border border-line px-3 py-1.5 text-xs text-sub hover:text-ink">今日关闭</button>
+          <button onclick="closeAnn(false)" class="rounded-md bg-brand-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-brand-700">关闭</button>
+        </div>
+      </div>
+    </div>
     <div id="proto-nav" class="fixed right-4 bottom-4 z-50">
       <details>
         <summary

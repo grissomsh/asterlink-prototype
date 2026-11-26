@@ -263,7 +263,11 @@
             id="view-card"
             class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
           >
-            <div class="rounded-xl border border-line bg-white p-4">
+            <div
+              class="cursor-pointer rounded-xl border border-line bg-white p-4"
+              onclick="openDetail('claude-sonnet-5-5')"
+              title="点击查看详情"
+            >
               <div class="flex items-center justify-between">
                 <p class="font-semibold">claude-sonnet-5-5</p>
                 <span
@@ -302,7 +306,11 @@
               </div>
             </div>
 
-            <div class="rounded-xl border border-line bg-white p-4">
+            <div
+              class="cursor-pointer rounded-xl border border-line bg-white p-4"
+              onclick="openDetail('gpt-5.2')"
+              title="点击查看详情"
+            >
               <div class="flex items-center justify-between">
                 <p class="font-semibold">gpt-5.2</p>
                 <span
@@ -338,7 +346,11 @@
               </div>
             </div>
 
-            <div class="rounded-xl border border-line bg-white p-4">
+            <div
+              class="cursor-pointer rounded-xl border border-line bg-white p-4"
+              onclick="openDetail('gemini-3-pro')"
+              title="点击查看详情"
+            >
               <div class="flex items-center justify-between">
                 <p class="font-semibold">gemini-3-pro</p>
                 <span
@@ -377,7 +389,11 @@
               </div>
             </div>
 
-            <div class="rounded-xl border border-line bg-white p-4">
+            <div
+              class="cursor-pointer rounded-xl border border-line bg-white p-4"
+              onclick="openDetail('deepseek-v4')"
+              title="点击查看详情"
+            >
               <div class="flex items-center justify-between">
                 <p class="font-semibold">deepseek-v4</p>
                 <span
@@ -413,7 +429,11 @@
               </div>
             </div>
 
-            <div class="rounded-xl border border-line bg-white p-4">
+            <div
+              class="cursor-pointer rounded-xl border border-line bg-white p-4"
+              onclick="openDetail('gpt-image-2')"
+              title="点击查看详情"
+            >
               <div class="flex items-center justify-between">
                 <p class="font-semibold">gpt-image-2</p>
                 <span
@@ -447,7 +467,11 @@
               </div>
             </div>
 
-            <div class="rounded-xl border border-line bg-white p-4 opacity-80">
+            <div
+              class="cursor-pointer rounded-xl border border-line bg-white p-4 opacity-80"
+              onclick="openDetail('grok-4')"
+              title="点击查看详情"
+            >
               <div class="flex items-center justify-between">
                 <p class="font-semibold">grok-4</p>
                 <span
@@ -802,5 +826,105 @@
         </div>
       </details>
     </div>
+    <dialog
+      id="detailDlg"
+      class="w-[480px] rounded-xl p-0 backdrop:backdrop-blur-sm"
+    >
+      <div class="p-6 text-sm">
+        <div class="flex items-center justify-between">
+          <h2 id="d-name" class="text-lg font-semibold"></h2>
+          <button onclick="detailDlg.close()" class="text-sub hover:text-ink">
+            ✕
+          </button>
+        </div>
+        <div id="d-body" class="mt-4 space-y-2 leading-relaxed"></div>
+        <p class="mt-4 rounded-lg bg-canvas px-3 py-2 text-xs text-faint">
+          价格明细按请求时刻快照结算；推荐配置可直接粘贴到 OpenAI 兼容客户端。
+        </p>
+      </div>
+    </dialog>
+    <script>
+      const DETAILS = {
+        "claude-sonnet-5-5": {
+          vendor: "Anthropic",
+          desc: "均衡的旗舰级日常模型，编码与长任务表现稳定。",
+          ctx: "200K",
+          maxOut: "8K",
+          price: "输入 ¥22.00 / 输出 ¥110.00 / 缓存命中 ¥11.00（每 1M tokens）",
+          extra: "无",
+          recommended: "claude-sonnet-5-5",
+        },
+        "gpt-5.2": {
+          vendor: "OpenAI",
+          desc: "通用旗舰模型，工具调用与视觉理解全面。",
+          ctx: "256K",
+          maxOut: "16K",
+          price: "输入 ¥21.00 / 输出 ¥84.00 / 缓存命中 ¥5.25（每 1M tokens）",
+          extra: "无",
+          recommended: "gpt-5.2",
+        },
+        "gemini-3-pro": {
+          vendor: "Google",
+          desc: "超长上下文与多模态，动态计费随官方策略浮动。",
+          ctx: "1M",
+          maxOut: "8K",
+          price: "输入 ¥8.70 / 输出 ¥36.00 / 缓存命中 ¥2.18（每 1M tokens）",
+          extra: "长上下文附加费见计费说明",
+          recommended: "gemini-3-pro",
+        },
+        "deepseek-v4": {
+          vendor: "DeepSeek",
+          desc: "高性价比推理模型，适合批量与日常任务。",
+          ctx: "128K",
+          maxOut: "8K",
+          price: "输入 ¥2.00 / 输出 ¥8.00 / 缓存命中 ¥0.50（每 1M tokens）",
+          extra: "无",
+          recommended: "deepseek-v4",
+        },
+        "gpt-image-2": {
+          vendor: "OpenAI",
+          desc: "图像生成，按次计费。",
+          ctx: "—",
+          maxOut: "—",
+          price: "¥0.20 / 次（1024×1024）",
+          extra: "高清档价格不同",
+          recommended: "gpt-image-2",
+        },
+        "grok-4": {
+          vendor: "xAI",
+          desc: "推理向模型，渠道维护中。",
+          ctx: "128K",
+          maxOut: "8K",
+          price: "输入 ¥52.00 / 输出 ¥156.00（每 1M tokens）",
+          extra: "无",
+          recommended: "grok-4",
+        },
+      };
+      function openDetail(name) {
+        const d = DETAILS[name];
+        document.getElementById("d-name").textContent = name;
+        document.getElementById("d-body").innerHTML =
+          "<p class='text-sub'>" +
+          d.vendor +
+          " · 上下文 " +
+          d.ctx +
+          " · 最大输出 " +
+          d.maxOut +
+          "</p>" +
+          "<p>" +
+          d.desc +
+          "</p>" +
+          "<p class='text-sub'>价格：" +
+          d.price +
+          "</p>" +
+          (d.extra === "无"
+            ? ""
+            : "<p class='text-sub'>附加：" + d.extra + "</p>") +
+          "<pre class='mt-2 rounded-lg bg-canvas p-3 font-mono text-xs overflow-x-auto'>base_url = https://api.asterlink.ai/v1\nmodel = " +
+          d.recommended +
+          "</pre>";
+        document.getElementById("detailDlg").showModal();
+      }
+    </script>
   </body>
 </html>
